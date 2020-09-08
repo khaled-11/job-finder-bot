@@ -645,7 +645,7 @@ module.exports = async (sender_psid, event) => {
 
     if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
-        if ( n = 1){
+        if ( n == 1){
           elements[elements.length]={"title": "Diego" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/4.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
           elements[elements.length]={"title": "Emma" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/3.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
         
@@ -654,7 +654,7 @@ module.exports = async (sender_psid, event) => {
     }}} else {
     for ( i = 1 ; i < count_1 ; i++){
       for ( n = 1 ; n < count_2 ; n++){
-        if ( n = 1){
+        if ( n == 1){
           elements[elements.length]={"title": "Diego" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/4.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
           elements[elements.length]={"title": "Emma" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/3.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
 
