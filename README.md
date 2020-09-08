@@ -3,11 +3,11 @@
 
 # Robin | Job Finder Assistant
 
-Facebook Messenger chatbot that help perople find jobs, and provide some help as well as relevant resources.
+Facebook Messenger chatbot that help perople find jobs, and provide some help with relevant resources.
 
 # What it does & how we built it
 
-Robin uses the Messenger API with Wit.ai to build on going interactive conversation that help perople find Jobs in the USA. The user's data is stored in AWS DynamoDB, and the matching results was implemented using Google Cutom Search API. We used the user's data to custom search (indeed, youtube, glassdor, and other websites), and the API returns the results in JSON format. We also used other APIs to get Indeed reviews, and companies details. Moreover, the app find and matches mentors based on the user job preference. The recommendation can be based only the job role or with combination of job role and company preference. The function will check the data and decide which way to implement. On the other hand, the NLP interaction was built using Wit.ai. We created the intents and entities then trained the App with some possible utterances like :(I need to set reminder for interview on December 1, 2020 | I need review for CVS). The App sends an error message to the user if we detect an intent with out the required entity like: (I need reviews | I have job interview). Some entents are generic and can work with 1,2 or 3 entities like: (I need software engineer job | I need software engineer job in Florida | I need part time software engineer job). It will work with only the job role or with combinations by handling each case in a different way. Finally, we used One Time Notification to send reminders if the user set a reminder for an interview. The function refresh periodicaly, and it will first check if the user is subscribed or not. If the user is subscribed, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources.
+Robin uses the Messenger API with Wit.ai to build on going interactive conversation that help perople find Jobs in the USA. The user's data is stored in AWS DynamoDB, and the matching results was implemented using Google Cutom Search API. We used the user's data to custom search (indeed, youtube, glassdor, and other websites), and the API returns the results in JSON format. We also used other APIs to get Indeed reviews, and companies details. Moreover, the app find and matches mentors based on the user job preference. The recommendation can be based only the job role or with combination of job role and company preference. The function will check the data and decide what to implement. On the other hand, the NLP interaction was built using Wit.ai. We created the intents and entities then trained the App with some possible utterances like :(I need to set reminder for interview on December 1, 2020 | I need review for CVS). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews | I have job interview). Some intents are generic and can work with 1,2 or 3 entities like: (I need software engineer job | I need software engineer job in Florida | I need part time software engineer job). It will work with only the job role or with combinations by handling each case in a different way. Finally, we used Messenger One Time Notification to send reminders if the user set a reminder for an interview. The function refresh periodicaly, and it will first check if the user is subscribed or not. If the user is subscribed, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources.
 
 # Installation
 
@@ -27,7 +27,7 @@ ngrok http 3370
 
 ## Setup the Envirenment Data:
 
-Next, you need to change .sample.env file to .env and fill the Facebook page, App ID, Page ID, App secret, URL and token. These can be found in your developer account after you create an App. The URL is the your local tunnel domain. You will need to set up the AWS credentials using the command: aws configure
+Next, you need to rename .sample.env file to .env and fill the credentials. These can be found in your developer account after you create Facebook Messenger App. The URL is the your local tunnel domain. The email & pass is setup for Google mail server. Finally, you will need to set up the AWS credentials to use DynamoDB using the command: aws configure
 
 
 ## Install and run the App:
