@@ -3,7 +3,7 @@
 
 # Robin | Job Finder Assistant
 
-Facebook Messenger chatbot that help perople find jobs, and provide some help with relevant resources.
+Facebook Messenger chatbot that help people find jobs, and provide some help with relevant resources.
 
 # What it does & how we built it
 
