@@ -283,7 +283,7 @@ module.exports = async (sender_psid, event) => {
         }
     }
     if (data.Item.job_role.L.length != 1){
-    response = { "text":"That is all what I got for now and based on your job interests.'",      
+    response = { "text":"That is all what I got for now and based on your job interests.",      
     "quick_replies":[
       {
         "content_type":"text",
