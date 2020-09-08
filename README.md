@@ -27,7 +27,7 @@ ngrok http 3370
 
 ## Setup the Envirenment Data:
 
-Next, you need to rename .sample.env file to .env and fill the credentials. These can be found in your developer account after you create Facebook Messenger App. The URL is the your local tunnel domain. The email & pass is setup for Google mail server. Finally, you will need to set up the AWS credentials to use DynamoDB using the command: aws configure
+Next, you need to rename .sample.env file to .env and fill the credentials. These can be found in your developer account after you create Facebook Messenger App. The URL is the your local tunnel domain. The email & pass for Google mail server, you can change the mailing server if preferred. Finally, you will need to set up the AWS credentials to use DynamoDB with the command: aws configure
 
 
 ## Install and run the App:
@@ -41,7 +41,7 @@ node index.js
 
 ## Install and run the App:
 
-This code snippet save the API use by saving review to the local server.
+This code snippet limit the API usage by saving new companies reviews to the local server. It will check if we have the reviews in the the global data folder first. If not, it will request from the API and save it for the next time.
 
 [![API Save](https://techolopia.com/wp-content/uploads/2020/09/code_snippet.jpg)](https://m.me/118754656624049)
 
