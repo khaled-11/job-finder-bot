@@ -662,6 +662,14 @@ module.exports = async (sender_psid, event) => {
           elements[elements.length]={"title": "Michelle" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/0.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
     }}}
 
+
+
+    if (elements.length > 9)
+    {
+       elements.length = 9;
+    }
+
+
     response = { 
       "attachment":{
         "type":"template",
