@@ -39,7 +39,7 @@ npm install
 node index.js
 ```
 
-## Install and run the App:
+## Saving the API:
 
 This code snippet limit the API usage by saving new companies reviews to the local server. It will check if we have the reviews in the the global data folder first. If not, it will request from the API and save it for the next time.
 
