@@ -20,7 +20,7 @@ You can clone the Repo and run it on your local machine using Local Tunnels like
 
 ```
 git clone https://github.com/khaled-11/robin
-cd open-source-edu-bot
+cd robin
 npm install -g ngrok
 ngrok http 3370
 ```
