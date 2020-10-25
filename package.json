@@ -4,7 +4,8 @@
   "description": "Messenger Chatbot for job finding and help",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
