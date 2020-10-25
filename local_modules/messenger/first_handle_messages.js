@@ -17,7 +17,7 @@ module.exports = async (sender_psid, webhook_event) => {
     response = { "text":`Thanks, we will send you Reminders & Insights for your scheduled Interviews in Messenger.`};
     action = null;
     state = await callSendAPI(sender_psid, response, action);
-    userMenu(sender_psid);
+    //userMenu(sender_psid);
   }else{
   let received_message = webhook_event.message;
 
@@ -25,41 +25,50 @@ module.exports = async (sender_psid, webhook_event) => {
   console.log(nlp);
   if ( nlp.intents[0]){
   var intent = nlp.intents[0].name;
+
   if (intent === "reviews"){
     if (nlp.entities['company_name:company_name']){
       name = nlp.entities['company_name:company_name'][0].body;
       if (!fs.existsSync(`./global/reviews_${nlp.entities['company_name:company_name'][0].body}.json`)){
         await get_reviews(nlp.entities['company_name:company_name'][0].body, sender_psid);
+       
         await sleep(3000);
         var jsonData = require(`../../data/${sender_psid}/reviews_${name}.json`);
       } else{
         var jsonData = require(`../../global/reviews_${name}.json`);
       }
-      let rate = "";
-      for (n = 0 ; n < jsonData[0].rating ; n++){
-        rate += "⭐";
+      if (jsonData && jsonData[0] && jsonData[0].rating){
+        let rate = "";
+        for (n = 0 ; n < jsonData[0].rating ; n++){
+          rate += "⭐";
+        }
+  
+        response = { "text":`*Data:* ${jsonData[0].datetime} *Rating:* ${rate} \n*Current/Formal Employee:* ${jsonData[0].reviewer_employee_type}\n*Reviewer Role:* ${jsonData[0].reviewer}\n*Location:* ${jsonData[0].location}\n*Review Text:* ${jsonData[0].text}\n*Link:* ${jsonData[0].url}`,
+          "quick_replies":[
+            {
+              "content_type":"text",
+              "title":"Main Menu",
+              "payload":"MENU"
+            }, {
+              "content_type":"text",
+              "title":"Add Company",
+              "payload":`ADD_${name}`
+            }, {
+              "content_type":"text",
+              "title":"Next Review ⏭️",
+              "payload":`NEXT_${name}`
+            }
+        ]}
+        action = null;
+        state = await callSendAPI(sender_psid, response, action);
+        current = data.Item.review_till.N;
+        updateLimit(sender_psid,1)
+      } else {
+        response = { "text":`We can't find data for this company name.`};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action);
       }
 
-      response = { "text":`*Data:* ${jsonData[0].datetime} *Rating:* ${rate} \n*Current/Formal Employee:* ${jsonData[0].reviewer_employee_type}\n*Reviewer Role:* ${jsonData[0].reviewer}\n*Location:* ${jsonData[0].location}\n*Review Text:* ${jsonData[0].text}\n*Link:* ${jsonData[0].url}`,
-        "quick_replies":[
-          {
-            "content_type":"text",
-            "title":"Main Menu",
-            "payload":"MENU"
-          }, {
-            "content_type":"text",
-            "title":"Add Company",
-            "payload":`ADD_${name}`
-          }, {
-            "content_type":"text",
-            "title":"Next Review ⏭️",
-            "payload":`NEXT_${name}`
-          }
-      ]}
-      action = null;
-      state = await callSendAPI(sender_psid, response, action);
-      current = data.Item.review_till.N;
-      updateLimit(sender_psid,1)
     } else{
       response = { "text":`Seems you are looking for review. What is the company name?`};
       action = null;
@@ -399,11 +408,11 @@ module.exports = async (sender_psid, webhook_event) => {
   async function userMenu(sender_psid) {
     elements = [];
 
-    elements[elements.length]={"title": "Opportunity Matchmaking" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/match.png", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Find a Mentor" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/Mentor.png", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Reminders & Insights" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/remind.png", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Analyze Job Description" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/analyze.png", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Get Relevant Information" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/info.png", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Opportunity Matchmaking", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Find a Mentor", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Reminders & Insights", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Analyze Job Description", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Get Relevant Information", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
 
       response = {
       "attachment":{

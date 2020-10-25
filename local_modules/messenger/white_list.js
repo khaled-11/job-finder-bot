@@ -7,7 +7,7 @@ token = process.env.PAGE_ACCESS_TOKEN;
 var request_body;
 // Create a request Body.
 request_body = {
-  "whitelisted_domains": [`${process.env.URL}`]
+  "whitelisted_domains": [`${process.env.URL}`,"https://www.youtube.com","https://techolopia.com"]
 }
   // Try the request after setting up the request_body.
   try{

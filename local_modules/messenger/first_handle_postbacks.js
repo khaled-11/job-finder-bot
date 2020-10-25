@@ -9,8 +9,7 @@ updateCheck = require("../database/updateCheck"),
 updateState = require("../database/update_state"),
 updateLimit = require("../database/update_limit"),
 updateData = require("../database/update_data"),
-deleteData = require("../database/delete_data"),
-persistent_menu = require("./persistent_menu");
+deleteData = require("../database/delete_data");
 
 module.exports = async (sender_psid, event) => {
   // Sending Mark Seen and Typing On Actions.
@@ -42,11 +41,10 @@ module.exports = async (sender_psid, event) => {
         fs.mkdirSync(`./data/${sender_psid}`);
       }
       data = await updateCheck(sender_psid);
-      persistent_menu(sender_psid);
-      response = { "text":`Hi ${data.Item.first_name.S} 👋 my name is Robin, it is nice to meet you! \nI can assist you during your job search 🔍. Through the chat, you can find job opportunities that fit with your background and interests, analyze job descriptions, spot keywords, set interview reminders, request key insights and find a mentor or career counselor 👀.`};
+      response = { "text":`Hi ${data.Item.first_name.S} 👋 I am a job finder bot sample! \nI can assist you to find a job in the USA 🔍. I can also send you reminders for job interviews or connect you with mentors 👀.\nIn the menu, you can find many other things I can do!`};
       action = null;
       await callSendAPI(sender_psid, response, action);
-      response = { "text":`In order to find your perfect job, can you tell me what are your job preferences?\nEx: I am looking for a full time sales manager role in California.`};
+      response = { "text":`To start, and add a job preference, please tell me what job type are you looking for?\nEx: I am looking for a full time project manager role in California.`};
       action = null;
       await callSendAPI(sender_psid, response, action);
   }} 
@@ -55,7 +53,7 @@ module.exports = async (sender_psid, event) => {
     var job_detail = payload.split("_");
     updateData(sender_psid,"job_role",job_detail[3])
     updateData(sender_psid,"job_type",job_detail[4])
-    updateData(sender_psid,"job_type",job_detail[5])
+    updateData(sender_psid,"job_place",job_detail[5])
     response = { "text":`Nice, your job preference has been set, now I can assist you during your process.\nLets get that job!`};
     action = null;
     await callSendAPI(sender_psid, response, action);
@@ -189,7 +187,7 @@ module.exports = async (sender_psid, event) => {
       for ( n = 1 ; n < count_2 ; n++){
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -201,7 +199,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -213,7 +211,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -225,7 +223,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -237,7 +235,7 @@ module.exports = async (sender_psid, event) => {
         for ( n = 1 ; n < count_2 ; n++){
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -249,7 +247,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -261,7 +259,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -273,7 +271,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -646,20 +644,20 @@ module.exports = async (sender_psid, event) => {
     if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
    
-          elements[elements.length]={"title": "Diego" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/4.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Emma" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/3.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
         
-          elements[elements.length]={"title": "James" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/1.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Michelle" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/0.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "James" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Michelle" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
     }} else {
     for ( i = 1 ; i < count_1 ; i++){
       for ( n = 1 ; n < count_2 ; n++){
         
-          elements[elements.length]={"title": "Diego" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/4.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Emma" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/3.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
 
-          elements[elements.length]={"title": "James" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/1.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Michelle" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/0.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "James" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Michelle" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://youtube.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://youtube.com","title":"Contact"}, {"type":"web_url","url":"https://youtube.com","title":"Profile"}]}
     }}}
 
 
@@ -764,20 +762,20 @@ module.exports = async (sender_psid, event) => {
 
     if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
-        var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job`);    
+        var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job`);    
         req.end(async function (res) {
         if (res.error) console.log(res.error);
-          elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
-          elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
+          elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.pngg", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
+          elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.pngg", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
       });
     }} else {
       for ( i = 1 ; i < count_1 ; i++){
         for ( n = 1 ; n < count_2 ; n++){
-          var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job in ${data.Item.companies.L[i].S}`);    
+          var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job in ${data.Item.companies.L[i].S}`);    
           req.end(async function (res) {
           if (res.error) console.log(res.error);
-            elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
-            elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
+            elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.pngg", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
+            elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.pngg", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
         });
     }}}
     await sleep(2000)
@@ -812,11 +810,11 @@ module.exports = async (sender_psid, event) => {
   else if (payload === "MENU"){
     elements = [];
 
-    elements[elements.length]={"title": "Opportunity Matchmaking" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/match.png", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Find a Mentor" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/Mentor.png", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Reminders & Insights" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/remind.png", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Analyze Job Description" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/analyze.png", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Get Relevant Information" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/info.png", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Opportunity Matchmaking", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Find a Mentor", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Reminders & Insights", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Analyze Job Description", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Get Relevant Information", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
 
       response = {
       "attachment":{
@@ -836,11 +834,11 @@ module.exports = async (sender_psid, event) => {
   async function userMenu(sender_psid) {
     elements = [];
 
-    elements[elements.length]={"title": "Opportunity Matchmaking" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/match.png", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Find a Mentor" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/Mentor.png", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Reminders & Insights" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/remind.png", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Analyze Job Description" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/analyze.png", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
-    elements[elements.length]={"title": "Get Relevant Information" ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/info.png", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Opportunity Matchmaking", "subtitle":"Here you find matches with your career preference and companies of interest.", "buttons":[{"type":"postback","payload":"MATCH_MAKING","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Find a Mentor", "subtitle":"Need a Metor or Counselor? I will suggest some with related experience.", "buttons":[{"type":"postback","payload":"MENTOR","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Reminders & Insights", "subtitle":"I can remind you, and send offer Insights with practice videos for Interviews.", "buttons":[{"type":"postback","payload":"REMINDERS","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Analyze Job Description", "subtitle":"Job description is confusing? Send it to me, and I will follow up.", "buttons":[{"type":"postback","payload":"ANALYZE","title":"Let's Go"}]}
+    elements[elements.length]={"title": "Get Relevant Information", "subtitle":"Need information or Reviews about a company. I am here to help!", "buttons":[{"type":"postback","payload":"INFO","title":"Let's Go"}]}
 
       response = {
       "attachment":{

@@ -3,16 +3,26 @@ bodyParser = require('body-parser'),
 createUsersTable = require("./local_modules/database/create_users_table"),
 updateState = require("./local_modules/database/update_state"),
 OTN = require ("./local_modules/messenger/OTN"),
-//mSetup = require("./local_modules/messenger/m_setUp"),
-//whiteList = require("./local_modules/messenger/white_list"),
+callbackSetup = require("./local_modules/messenger/m_setUp"),
+subscribePage = require("./local_modules/messenger/page_subscribe"),
+whiteList = require("./local_modules/messenger/white_list"),
+getStarted = require("./local_modules/messenger/get_started"),
+persistentMenu = require("./local_modules/messenger/persistent_menu"),
 firstMessages = require("./local_modules/messenger/first_handle_messages"),
 firstPostbacks = require("./local_modules/messenger/first_handle_postbacks");
 
-//Functions to Whitelist the domain and update the Messenger Webhook callback URL.
-//whiteList(); mSetup();
-
-// // Table for Messenger Users
-createUsersTable();
+// Calling ASYNC function to Setup the App in order.
+//appStart();
+async function appStart(){
+  // Table for Messenger Users.
+  await createUsersTable();
+  // Setting up the Messenger App.
+  await whiteList(); 
+  await subscribePage();
+  await getStarted();
+  await persistentMenu();
+  await callbackSetup();
+}
 
 // Creating the App object in express.
 app = express();
@@ -21,7 +31,7 @@ app = express();
 app.use(bodyParser.json());
 
 // Calling OTN Function to check for and send Reminders periodically.
-setInterval(function(){OTN()}, 10000);
+setInterval(function(){OTN()}, 8000);
 
 ///////////////////////////////////////////////////////
 /// Webhook Endpoint For the Facebook Messenger App ///

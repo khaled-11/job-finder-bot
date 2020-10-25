@@ -4,7 +4,7 @@ module.exports = async (text) => {
 
 try{
     const client = new Wit({
-    accessToken: "VWRCIEKP5RH3OD7FEU2GREK5X2NG46AY",
+    accessToken: `${process.env.WIT_KEY}`,
     });
     result = await client.message(text);
 }

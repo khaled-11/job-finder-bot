@@ -1,27 +1,36 @@
-////////////////////////////////////////////////////
-//   Asynchronous Module to Pass Thread Control   //
-/// Function to set up the callback url /////
-const request = require('request');
+/// Function to setup the App callback URL ///
+const rp = require('request-promise');
 
 module.exports = async () => {
-  request(
-    {
-      uri: `https://graph.facebook.com/v7.0/${process.env.APP_ID}/subscriptions`,
-      qs: {
-        access_token: `${process.env.APP_ID}|${process.env.APP_SECRET}`,
-        object: "page",
-        callback_url: `${process.env.URL}/webhook`,
-        verify_token: process.env.VERIFY_TOKEN,
-        include_values: "true"
-      },
-      method: "POST"
-    },
-    (error, _res, body) => {
-      if (!error) {
-        console.log("Callback URL:", body);
-      } else {
-        console.error("Callback URL have issues:", error);
-      }
+  let fields =
+  "messages, messaging_postbacks, messaging_optins, \
+    message_deliveries, messaging_referrals";
+  // Construct the message body
+  var request_body;
+  // Create a request Body.
+  request_body = {
+    access_token: `${process.env.APP_ID}|${process.env.APP_SECRET}`,
+    object: "page",
+    callback_url: `${process.env.URL}/webhook`,
+    verify_token: process.env.VERIFY_TOKEN,
+    fields: fields,
+    include_values: "true"
+  }
+    // Try the request after setting up the request_body.
+    try{
+      var state;
+      var options = {
+        method: 'POST',
+        uri: `https://graph.facebook.com/v8.0/${process.env.APP_ID}/subscriptions`,
+        body: request_body,
+        json: true
+      };
+    state = await rp(options);
+    console.log("Callback URL:" , state);
+    console.log(`You can now test your App using this link: https://m.me/${process.env.PAGE_ID}`);
     }
-  );
-}
+    catch (e){
+        console.log("Callback URL has error: ", e.message)
+    }
+     return state;
+};
