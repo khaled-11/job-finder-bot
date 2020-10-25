@@ -12,7 +12,7 @@ firstMessages = require("./local_modules/messenger/first_handle_messages"),
 firstPostbacks = require("./local_modules/messenger/first_handle_postbacks");
 
 // Calling ASYNC function to Setup the App in order.
-//appStart();
+appStart();
 async function appStart(){
   // Table for Messenger Users.
   await createUsersTable();
