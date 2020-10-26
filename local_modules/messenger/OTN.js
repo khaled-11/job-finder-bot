@@ -28,8 +28,8 @@ module.exports = async () => {
         var elements = [];
         var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0&cx=62ab1f4c93443a29d&q=Interview Tips`);    
         req.end(async function (res) {
-        elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
-        elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/09/video.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
+        elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
+        elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
         });
         await sleep (3000);
         response = { 
