@@ -71,4 +71,8 @@ This code snippet limit the API usage by saving new companies reviews to the loc
 
 You can test the App live using this link: https://m.me/118754656624049
 
+### How to contribute
+
+This sample App is open for contributons. 
+
 
