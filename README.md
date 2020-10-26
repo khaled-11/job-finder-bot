@@ -58,6 +58,10 @@ Go to [Wit.ai](http://wit.ai) website, and create new App. In the app dashboard,
 
 Now, we have completed the required environment variables and the App  is ready to run. If you use your local machine, open a new terminal and  navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Elastic Beanstalk, the platform will refresh the server and add the variables. You may need to comment the ``` callbackSetup ```  import and invoke. This if Elastic Beanstalk gives you an error and can't start the server.  In this case, update the Callback URL in the Messenger App dashboard.
 
+### Train the Wit App:
+
+
+### Test on Messenger:
 
 
 ### Save the API:
@@ -70,6 +74,14 @@ This code snippet limit the API usage by saving new companies reviews to the loc
 ### Live link:
 
 You can test the App live using this link: https://m.me/118754656624049
+
+## Customize & Contribute:
+
+You can work on improvemnts for everyone, or customize the App for another use case.
+
+### How to customzie
+
+You will find handle messages function and a folder.
 
 ### How to contribute
 
