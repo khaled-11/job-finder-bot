@@ -73,6 +73,11 @@ You can test the App live using this link: https://m.me/118754656624049
 
 ### How to contribute
 
-This sample App is open for contributons. 
+This sample App is open for contributons. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
+
+### License
+
+Job Finder bot is [MIT Licenced](https://github.com/khaled-11/job-finder-bot/blob/master/LICENSE).
+
 
 
