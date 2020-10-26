@@ -48,7 +48,7 @@ Now, we need to rename .sample.env to .env and fill the data. If you use Elastic
 
 ### Facebook Developer Account:
 
-Create a new App from the account.  setup Messnger product, and go to the product settings. Scroll down and click "Add or Remove  Pages". Add the page you want to use. Now, "Generate Token", and copy the token. Add this token to the PAGE_ACCESS_TOKEN variable in the .env file. Go back to the same page and find PAGE_ID & APP ID. Go to settings and basic settings. Get the APP_SECRET and add it to the variables.
+Create a new App from the account.  setup Messenger product, and go to the product settings. Scroll down and click "Add or Remove  Pages". Add the page you want to use. Now, "Generate Token", and copy the token. Add this token to the PAGE_ACCESS_TOKEN variable in the .env file. Go back to the same page and find PAGE_ID & APP ID. Go to settings and basic settings. Get the APP_SECRET and add it to the variables.
 
 ### Wit.ai Account:
 
@@ -63,11 +63,11 @@ Now, we have completed the required environment variables and the App  is ready 
 For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
 <ol>
-  <li>job_preference: This intent is used to capture the job preference from the user input. You can train the app with utterances like: "I need a {full time} {Software engineer} job in {California}". Define a "job_role", "job_role" & "state" for this intent in the same order. You can add utterances with one or two only, but you need to define all.</li> 
-    <li>reminders: This intent is used to capture the date and the interview information. You can train the app with utterances like: "I have an interview for a {Software engineer} job with {Google} on December 28, 2020". Define a "company_name" for this intent and choose the job_role we created before. You can add utterances with the date only.</li> 
-    <li>resources & reviews: These two intent are used to find reviews and information about company. You can train the app with utterances like: "I need review for {google}" , "I need information about CVS". Use the company name entity we created before.</li> 
-     <li>analyze: This intent will capture the url for the link any user send. The utterances can be "I need to analyze https://..".</li> 
-     <li>delete_data & remember: These two intent will identify if the user want to delete the data or ask about the data. You can train these intent with utterances like "Do you remember me" , "Delete my data".</li> 
+  <li>job_preference: The App uses this to capture the job preference  from the user input. You can train the app with utterances like: "I need  a {full time} {Software engineer} job in {California}". Define a  "job_role", "job_role" & "state" for this intent in the same order.  You can add utterances with one or two only, but you need to define all.</li> 
+    <li>reminders: The App uses this to capture the date and the  interview information. You can train the app with utterances like. "I  have an interview for a {Software engineer} job with {Google} on  December 28, 2020". Define a "company_name" for this intent and choose  the job_role we created before. You can add utterances with the date  only.</li> 
+    <li>resources & reviews: The App uses these intent to capture company name. This will get reviews and information about company. You can train the app with  utterances like: "I need review for {google}" , "I need information  about CVS". Use the company name entity we created before.</li> 
+     <li>analyze: This intent will capture the URL for the link any user send. The utterances can be "I need to analyze https://..".</li> 
+     <li>delete_data & remember: These two intent will identify if  the user want to delete the data. Also, it will identify if the user ask about the data. You can train  these intent with utterances like "Do you remember me" , "Delete my  data".</li> 
        <li>welcome & thanks: These two intent will identify if the user want to greet or thank. You can train these intent with utterances like "thank you" , "how are you".</li> 
     
 </ol>
@@ -88,19 +88,19 @@ You can test the App live using this link: https://m.me/118754656624049
 
 ## Customize & Contribute:
 
-You can work on improvemnts for everyone, or customize the App for another use case.
+You can work on improvements for everyone, or customize the App for another use case.
 
-### How to customzie
+### How to customize
 
 You will find handle messages function and a folder.
 
 ### How to contribute
 
-This sample App is open for contributons. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
+This sample App is open for contributions. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
 
 ### License
 
-Job Finder bot is [MIT Licenced](https://github.com/khaled-11/job-finder-bot/blob/master/LICENSE).
+Job Finder bot is [MIT Licensed](https://github.com/khaled-11/job-finder-bot/blob/master/LICENSE).
 
 
 
