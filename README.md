@@ -15,12 +15,26 @@ Every organization can offer their services through a smart chatbot Application.
 
 This App help people find jobs in the USA and connect them with Mentors on Messenger. The App uses Wit.ai to understand the user intent and capture the job preference. It stores the users data in AWS DynamoDB table, so it is scalable. To find job recommendations, the App uses Google Custom Search API. This API can search websites, and return the results in JSON format. Also, this App uses other APIs to get Indeed reviews and the company details. Moreover, the app find and matches users with mentors based on the user job preference data. It can recommend mentors based on the job position only or job position and a company name. The App will check the user data and match based on what it finds. For Wit.ai App, I created intents and entities then I trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. Finally, This App uses Messenger One Time Notification to send reminders to users. Also, it will notify the user over email as well. The user can set a reminder for a job interview, and the App will remind the user with some helpful review topics. This function refresh everyday, and it will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. 
 
-# Installation
 
+## Requirements:
 
-> **requirement**: Node.js preferred version 13.9.0, AWS Credentials, Google Mail Credentials, and Facebook Page.
+> **Facebook Page**: You need to have a Facebook page to use with this App. When the users chat with your page, this chatbot App will take over the conversation and respond. To create a new Page, click [here](https://www.facebook.com/pages/create).
 
-We made the wit.ai key & Google Custom search key available for public use, and it is included in the source code.
+> **Facebook Developer Account**:  You need a Facebook Developer Account to use this  experience. If you don't have an account, create a new one from the [Facebook Developers website](https://developers.facebook.com/). Click "get started" on the top right of the page, and complete the steps.
+
+> **Wit.ai Account**: You need a Wit.ai account to create a new Wit App and train it for the intents. To create one, go to [Wit.ai website](https://wit.ai/), and click "Continue with Facebook".
+
+> **AWS Account**: You need AWS account to create the Database for the App. To create one, go to [AWS website](https://aws.amazon.com/), and sign up for a free tier account.
+
+> **Google Cloud Account**: You need Google Cloud account to get the custom search API key. Also, to generate password for the email will use with nodemailer. If you dont have one, go to [Google cloud website](https://cloud.google.com) and signup for free trial.
+
+> **Wextractor Account**: Signup for a free account at https://wextractor.com/. We need it to get the key for the Indeed reviews API.
+
+> **Node.js & NPM**: Node.js preferred version "latest" & NPM preferred version "latest". If you don't have them on your machine, go to [Node.js Website](https://nodejs.org/en/) to download Node.js & NPM. You can use [Glitch](https://glitch.com/) to run the App without installing Node.js on your machine.
+
+> **Local Tunnel Service**: You can use [Ngrok](http://ngrok.com) to run the App on your local machine. This will gives you a link to use as a callback url. If you will use [Glitch](https://glitch.com/), you don't need a local tunnel service.
+
+## Installation
 
 You can clone the Repo and run it on your local machine using Local Tunnels like Ngrok.
 
