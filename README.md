@@ -44,11 +44,11 @@ cd job-finder-bot
 npm install
 ```
 
-Now, we need to rename .sample.env to .env and fill the data. If you use Elastic beanstalk, update the environment variables in the  configuration. We will need APP_ID, APP_SECRET, PAGE_ID & PAGE_ACCESS_TOKEN. We will get these information from the Facebook developer account. The VERIFY_TOKEN is any random string you choose to verify the call back URL. We will get the WIT_KEY from the [Wit.ai](https://wit.ai/) website. The URL field is the ```https://``` link for the App server. If you use your local machine, enter the local tunnel link. For Elastic Beanstalk, enter the  ```https://``` link for the main domain. Enter WEX_KEY from the https://wextractor.com/ website for indeed reviews. [Generate App password](https://support.google.com/mail/answer/185833) for your Gmail account. Add this to the EMAIL & E_PASS variables in the file. Generate a key for [Google custom search API](https://developers.google.com/custom-search/). Refer to [this article](https://developers.google.com/custom-search/docs/tutorial/creatingcse) for more information about the API uses.
+Now, we need to rename .sample.env to .env and fill the data. If you use Elastic beanstalk, update the environment variables in the  configuration. We will need APP_ID, APP_SECRET, PAGE_ID & PAGE_ACCESS_TOKEN. We will get these information from the Facebook developer account. The VERIFY_TOKEN is any random string you choose to verify the call back URL. We will get the WIT_KEY from the [Wit.ai](https://wit.ai/) website. The URL field is the ```https://``` link for the App server. If you use your local machine, enter the local tunnel link. For Elastic Beanstalk, enter the  ```https://``` link for the main domain. Enter WEX_KEY from the https://wextractor.com/ website for indeed reviews. [Generate App password](https://support.google.com/mail/answer/185833) for your Gmail account. Add this to the EMAIL & E_PASS variables in the file. Generate a key for [Google custom search API](https://developers.google.com/custom-search/). Refer to [this article](https://developers.google.com/custom-search/docs/tutorial/creatingcse) for more information about the API uses. If you can't get a key or setup the custom search, use this key "AIzaSyD6UQ_AMNNAe6C4x0rEbhnS1a8f3psE4S0". You can use this key for GOOGLE_KEY to test the API with limits.
 
 ### Facebook Developer Account:
 
-Create a new App from the account.  setup Messnger product, and go to the product settings. Scroll down and click "Add or Remove  Pages". Add the page you want to use. Now, "Generate Token", and copy the token. Add this token to the PAGE_ACCESS_TOKEN variable in the .env file. Go back to the same page and find PAGE_ID & APP ID. Go to settings and basic settings. Get the APP_SECRET and add it to the variables.
+Create a new App from the account.  setup Messenger product, and go to the product settings. Scroll down and click "Add or Remove  Pages". Add the page you want to use. Now, "Generate Token", and copy the token. Add this token to the PAGE_ACCESS_TOKEN variable in the .env file. Go back to the same page and find PAGE_ID & APP ID. Go to settings and basic settings. Get the APP_SECRET and add it to the variables.
 
 ### Wit.ai Account:
 
@@ -58,7 +58,38 @@ Go to [Wit.ai](http://wit.ai) website, and create new App. In the app dashboard,
 
 Now, we have completed the required environment variables and the App  is ready to run. If you use your local machine, open a new terminal and  navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Elastic Beanstalk, the platform will refresh the server and add the variables. You may need to comment the ``` callbackSetup ```  import and invoke. This if Elastic Beanstalk gives you an error and can't start the server.  In this case, update the Callback URL in the Messenger App dashboard.
 
+### Train the Wit App:
 
+For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
+
+<ol>
+  <li>job_preference: The App uses this to capture the job preference  from the user input. You can train the app with utterances like: "I need  a {full time} {Software engineer} job in {California}". Define a  "job_role", "job_role" & "state" for this intent in the same order.  You can add utterances with one or two only, but you need to define all.</li> 
+    <li>reminders: The App uses this to capture the date and the  interview information. You can train the app with utterances like. "I  have an interview for a {Software engineer} job with {Google} on  December 28, 2020". Define a "company_name" for this intent and choose  the job_role we created before. You can add utterances with the date  only.</li> 
+    <li>resources & reviews: The App uses these intent to capture company name. This will get reviews and information about company. You can train the app with  utterances like: "I need review for {google}" , "I need information  about CVS". Use the company name entity we created before.</li> 
+     <li>analyze: This intent will capture the URL for the link any user send. The utterances can be "I need to analyze https://..".</li> 
+     <li>delete_data & remember: These two intent will identify if  the user want to delete the data. Also, it will identify if the user ask about the data. You can train  these intent with utterances like "Do you remember me" , "Delete my  data".</li> 
+       <li>welcome & thanks: These two intent will identify if the user want to greet or thank. You can train these intent with utterances like "thank you" , "how are you".</li> 
+    
+</ol>
+
+### Test on Messenger:
+
+To test the App on Messenger, fllw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. Yu can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
+
+``` JAVASCRIPT
+// Main file
+setInterval(function(){OTN()}, 88000);
+
+// OTN Function
+for (i = 0 ; i < all.length ; ++i){
+  if(check.Item.N_token && check.Item.N_token.S !== ""){            
+    userToken = check.Item.N_token.S;
+    PSID = null;
+    var elements = [];
+  } else {
+  // User not opt-in
+  }
+```
 
 ### Save the API:
 
@@ -69,10 +100,23 @@ This code snippet limit the API usage by saving new companies reviews to the loc
 
 ### Live link:
 
-You can test the App live using this link: https://m.me/118754656624049
+You can test the App live using this link: https://m.me/100364215214464
+
+## Customize & Contribute:
+
+You can work on improvements for everyone, or customize the App for another use case.
+
+### How to customize
+
+You will find handle messages function and a folder.
 
 ### How to contribute
 
-This sample App is open for contributons. 
+This sample App is open for contributions. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
+
+### License
+
+Job Finder bot is [MIT Licensed](https://github.com/khaled-11/job-finder-bot/blob/master/LICENSE).
+
 
 
