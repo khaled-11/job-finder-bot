@@ -60,6 +60,11 @@ Now, we have completed the required environment variables and the App  is ready 
 
 ### Train the Wit App:
 
+For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
+
+<ol>
+  <li>hey</li>  
+</ol>
 
 ### Test on Messenger:
 
