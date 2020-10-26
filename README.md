@@ -1,13 +1,19 @@
 ![Open Source](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Robin | Job Finder Assistant
+# Job Finder Bot
 
-Facebook Messenger chatbot that help people find jobs, and provide some help with relevant resources.
+<div align ="center">
+<img width="100" height="100" src="https://techolopia.com/wp-content/uploads/2020/10/profile-1.jpg">
+<br>
+</div>
+<br>
 
-# What it does & how we built it
+Every organization can offer their services through a smart chatbot Application. This will increase the productivity and provide a better support for their customers. Users won't need to download a special App to use these services or to access their accounts. For example, a restaurant can offer a delivery service from a Messenger App. The user can see the menu, and complete the order. Also, the App can encrypt and store the order history, the payment method, and other details. Last month, I built an App that help people find job on Messenger. This App help users with job recommendations, and connect users with mentors. Moreover, it can provide practice resources or send interview notifications. Finally, it can find reviews or information about a specific company. The user can add these companies to the job search preference data to focus only on these companies. In this tutorial, I will explain how I built this App and how developers can build similar experience.
 
-Robin uses the Messenger API with Wit.ai to build on going interactive conversation that help people find Jobs in the USA. The user's data is stored in AWS DynamoDB, and the matching results was implemented using Google Cutom Search API. We used the user's data to custom search (indeed, youtube, glassdor, and other websites), and the API returns the results in JSON format. We also used other APIs to get Indeed reviews, and companies details. Moreover, the app find and matches mentors based on the user job preference. The recommendation can be based only the job role or with combination of job role and company preference. The function will check the data and decide what to implement. On the other hand, the NLP interaction was built using Wit.ai. We created the intents and entities then trained the App with some possible utterances like :(I need to set reminder for interview on December 1, 2020 | I need review for CVS). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews | I have job interview). Some intents are generic and can work with 1,2 or 3 entities like: (I need software engineer job | I need software engineer job in Florida | I need part time software engineer job). It will work with only the job role or with combinations by handling each case in a different way. Finally, we used Messenger One Time Notification to send reminders if the user set a reminder for an interview. The function refresh periodicaly, and it will first check if the user is subscribed or not. If the user is subscribed, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources.
+## What it does & How I built it
+
+This App help people find jobs in the USA and connect them with Mentors on Messenger. The App uses Wit.ai to understand the user intent and capture the job preference. It stores the users data in AWS DynamoDB table, so it is scalable. To find job recommendations, the App uses Google Custom Search API. This API can search websites, and return the results in JSON format. Also, this App uses other APIs to get Indeed reviews and the company details. Moreover, the app find and matches users with mentors based on the user job preference data. It can recommend mentors based on the job position only or job position and a company name. The App will check the user data and match based on what it finds. For Wit.ai App, I created intents and entities then I trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. Finally, This App uses Messenger One Time Notification to send reminders to users. Also, it will notify the user over email as well. The user can set a reminder for a job interview, and the App will remind the user with some helpful review topics. This function refresh everyday, and it will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. 
 
 # Installation
 
@@ -39,19 +45,15 @@ npm install
 node index.js
 ```
 
-## Saving the API:
+## Save the API:
 
 This code snippet limit the API usage by saving new companies reviews to the local server. It will check if we have the reviews in the the global data folder first. If not, it will request from the API and save it for the next time.
 
 [![API Save](https://techolopia.com/wp-content/uploads/2020/09/code_snippet.jpg)](https://m.me/118754656624049)
 
 
-## The flow and live link:
+## Live link:
 
 You can test the App live using this link: https://m.me/118754656624049
-
-Devpost submission link: https://devpost.com/software/robin-job-finding-assistant-zjrgum
-
-[![API Save](https://techolopia.com/wp-content/uploads/2020/09/flow-1.jpg)](https://m.me/118754656624049)
 
 
