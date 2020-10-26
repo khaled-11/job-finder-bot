@@ -74,7 +74,7 @@ For this demo, you need to train the App with some intents and entities. Go to t
 
 ### Request OTN:
 
-You need to activate the one time notification for this page to use it. Go to page settings then "Advanced Messaging". Scroll down and find "One-Time Notification" and request. After you activate this features, this will send the "Notify Me" template to the users.
+You need to activate the one time notification for this page. Go to page settings then "Advanced Messaging". Scroll down and find "One-Time Notification" and request it. After you activate this features, the App can send the "Notify Me" template to the users. When a user click this button, the App will get a token for this user. You can use this token to send one message to a user after 24 hours.
 
 ### Test on Messenger:
 
