@@ -18,7 +18,7 @@ This App help people find jobs in the USA and connect them with Mentors on Messe
 
 ## Requirements:
 
-> **Facebook Page**: You need to have a Facebook page to use with this App. When the users chat with your page, this chatbot App will take over the conversation and respond. To create a new Page, click [here](https://www.facebook.com/pages/create).
+> **Facebook Page**: You need a Facebook page to use with this App. To create a new test Page, click [here](https://www.facebook.com/pages/create).
 
 > **Facebook Developer Account**:  You need a Facebook Developer Account to use this  experience. If you don't have an account, create a new one from the [Facebook Developers website](https://developers.facebook.com/). Click "get started" on the top right of the page, and complete the steps.
 
@@ -36,37 +36,26 @@ This App help people find jobs in the USA and connect them with Mentors on Messe
 
 ## Installation
 
-You can clone the Repo and run it on your local machine using Local Tunnels like Ngrok.
+You can download and run the App on your local machine, or upload it to [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/). If you run on your local machine, you will need to configure the AWS SDK to connect your account. This way the App can control the database while running on your machine. To install the SDK, read [this article](https://aws.amazon.com/cli/). Run the following commands to download the required packages:
 
 ```
-git clone https://github.com/khaled-11/robin
-cd robin
-npm install -g ngrok
-ngrok http 3370
-```
-
-## Setup the Envirenment Data:
-
-Next, you need to rename .sample.env file to .env and fill the credentials. These can be found in your developer account after you create Facebook Messenger App. The URL is the your local tunnel domain. The email & pass for Google mail server, you can change the mailing server if preferred. Finally, you will need to set up the AWS credentials to use DynamoDB with the command: aws configure
-
-
-## Install and run the App:
-
-You can install and run the app now.
-
-```
+git clone https://github.com/khaled-11/job-finder-bot.git
+cd job-finder-bot
 npm install
-node index.js
 ```
 
-## Save the API:
+Now, we need to rename .sample.env to .env and fill the data. If you use Elastic beanstalk, update the environment variables in the configuration.
+
+
+
+### Save the API:
 
 This code snippet limit the API usage by saving new companies reviews to the local server. It will check if we have the reviews in the the global data folder first. If not, it will request from the API and save it for the next time.
 
 [![API Save](https://techolopia.com/wp-content/uploads/2020/09/code_snippet.jpg)](https://m.me/118754656624049)
 
 
-## Live link:
+### Live link:
 
 You can test the App live using this link: https://m.me/118754656624049
 
