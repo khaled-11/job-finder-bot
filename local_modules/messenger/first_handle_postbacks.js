@@ -199,7 +199,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
           json: true
         };
         gData = await rp(options);
@@ -211,7 +211,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
           json: true
         };
         gData = await rp(options);
