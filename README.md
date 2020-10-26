@@ -112,7 +112,7 @@ You can work on improvements for everyone, or customize the App for another use 
 
 ### How to customize
 
-You will find a folder called "local_modules". In this folder you find and edit responses in some messenger functions. Also, you can change in the database structure and add fields. You can add more functions and handle more intents.
+You will find a folder called "local_modules". In this folder you can find and edit responses in some messenger functions. Also, you can change in the database structure and add fields. You can add more functions and handle more intents.
 
 ### How to contribute
 
