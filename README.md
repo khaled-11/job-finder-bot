@@ -26,11 +26,11 @@ This App help people find jobs in the USA and connect them with Mentors on Messe
 
 > **AWS Account**: You need AWS account to create the Database for the App. To create one, go to [AWS website](https://aws.amazon.com/), and sign up for a free tier account.
 
-> **Google Cloud Account**: You need Google Cloud account to get the custom search API key. Also, to generate password for the email will use with nodemailer. If you dont have one, go to [Google cloud website](https://cloud.google.com) and signup for free trial.
+> **Google Cloud Account**: You need Google Cloud account to get the custom search API key. Also, to generate password for the email will use with nodemailer. If you don't have one, go to [Google cloud website](https://cloud.google.com) and signup for free trial.
 
 > **Wextractor Account**: Signup for a free account at https://wextractor.com/. We need it to get the key for the Indeed reviews API.
 
-> **Node.js & NPM**: Node.js preferred version "latest" & NPM preferred version "latest". If you don't have them on your machine, go to [Node.js Website](https://nodejs.org/en/) to download Node.js & NPM. You can use [Glitch](https://glitch.com/) to run the App without installing Node.js on your machine.
+> **Node.js & NPM**: Node.js preferred version "latest" & NPM preferred version "latest". If you don't have them on your machine, go to [Node.js website](https://nodejs.org/en/) to download Node.js & NPM. You can use [Glitch](https://glitch.com/) to run the App without installing Node.js on your machine.
 
 > **Local Tunnel Service**: You can use [Ngrok](http://ngrok.com) to run the App on your local machine. This will gives you a link to use as a callback url. If you will use [Glitch](https://glitch.com/), you don't need a local tunnel service.
 
@@ -44,8 +44,7 @@ cd job-finder-bot
 npm install
 ```
 
-Now, we need to rename .sample.env to .env and fill the data. If you use Elastic beanstalk, update the environment variables in the configuration.
-
+Now, we need to rename .sample.env to .env and fill the data. If you  use Elastic beanstalk, update the environment variables in the  configuration. You will need APP_ID, APP_SECRET, PAGE_ID & PAGE_ACCESS_TOKEN. We will get these information from the Facebook developer account. The VERIFY_TOKEN is any random string you choose to verify the call back URL. We will need Wit key from the [Wit.ai](https://wit.ai/) website. The URL field is the ```https://``` link for the App server. If you use your local machine, enter the local tunnel link. For Elastic Beanstalk, enter the  ```https://``` link for the domain.  Enter WEX_KEY from the https://wextractor.com/ website for indeed reviews. [https://support.google.com/mail/answer/185833) for your Gmail account. Add this to the EMAIL & E_PASS variables in the file. Generate a key for [Google custom search API](https://developers.google.com/custom-search/). Refer to [this article](https://developers.google.com/custom-search/docs/tutorial/creatingcse) for more information about the API uses.
 
 
 ### Save the API:
