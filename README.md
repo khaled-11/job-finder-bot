@@ -54,6 +54,11 @@ Create a new App from the account.  setup Messnger product, and go to the produc
 
 Go to [Wit.ai](http://wit.ai) website, and create new App. In the app dashboard, click setting and copy the "Server Access Token". Add it for the WIT_KEY field in the .env file.
 
+## Run the App:
+
+Now, we have completed the required environment variables and the App is ready to run. If you use your local machine, open a new terminal and navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Ealsic Beanstalk, the variables wil be updated automatically. You may need to comment the ``` callbackSetup ``` import and invoke from the code before deploying to Ealsic Beanstalk. In this case, update the Callback URL manually in the developer account.
+
+
 
 ### Save the API:
 
