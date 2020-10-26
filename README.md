@@ -63,7 +63,13 @@ Now, we have completed the required environment variables and the App  is ready 
 For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
 <ol>
-  <li>hey</li>  
+  <li>job_preference: This intent is used to capture the job preference from the user input. You can train the app with utterances like: "I need a {full time} {Software engineer} job in {California}". Define a "job_role", "job_role" & "state" for this intent in the same order. You can add utterances with one or two only, but you need to define all.</li> 
+    <li>reminders: This intent is used to capture the date and the interview information. You can train the app with utterances like: "I have an interview for a {Software engineer} job with {Google} on December 28, 2020". Define a "company_name" for this intent and choose the job_role we created before. You can add utterances with the date only.</li> 
+    <li>resources & reviews: These two intent are used to find reviews and information about company. You can train the app with utterances like: "I need review for {google}" , "I need information about CVS". Use the company name entity we created before.</li> 
+     <li>analyze: This intent will capture the url for the link any user send. The utterances can be "I need to analyze https://..".</li> 
+     <li>delete_data & remember: These two intent will identify if the user want to delete the data or ask about the data. You can train these intent with utterances like "Do you remember me" , "Delete my data".</li> 
+       <li>welcome & thanks: These two intent will identify if the user want to greet or thank. You can train these intent with utterances like "thank you" , "how are you".</li> 
+    
 </ol>
 
 ### Test on Messenger:
