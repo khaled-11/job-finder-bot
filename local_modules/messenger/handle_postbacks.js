@@ -168,24 +168,24 @@ module.exports = async (sender_psid, event) => {
     }
 
 
-    if (data.Item.companies.L.length > 3){
-      count_1 = 3;
+    if (data.Item.companies.L.length > 5){
+      count_1 = 6;
     } else{
       count_1 = data.Item.companies.L.length;
     }
 
     if (data.Item.job_role.L.length > 3){
       count_2 = 3;
-    } else{
+    } else {
       count_2 = data.Item.job_role.L.length;
     }
 
-    if (count_1 != 1){
-    for ( i = 1 ; i < count_1 ; i++){
+
+    if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
           json: true
         };
         gData = await rp(options);
@@ -221,63 +221,66 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
           json: true
         };
         gData = await rp(options);
         response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
         action = null;
         state = await callSendAPI(sender_psid, response, action);
-      }
-    }} else{
-        for ( n = 1 ; n < count_2 ; n++){
-          var options = {
-            method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
-            json: true
-          };
-          gData = await rp(options);
-          response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
-          action = null;
-          state = await callSendAPI(sender_psid, response, action);
-          
-          await sleep (200);
-  
-          var options = {
-            method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
-            json: true
-          };
-          gData = await rp(options);
-          response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
-          action = null;
-          state = await callSendAPI(sender_psid, response, action);
-  
-          await sleep (200);
-  
-          var options = {
-            method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
-            json: true
-          };
-          gData = await rp(options);
-          response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
-          action = null;
-          state = await callSendAPI(sender_psid, response, action);
-  
-          await sleep (200);
-  
-          var options = {
-            method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
-            json: true
-          };
-          gData = await rp(options);
-          response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
-          action = null;
-          state = await callSendAPI(sender_psid, response, action);
-        }
-    }
+    }} else {
+        for ( i = 1 ; i < count_1 ; i++){
+          for ( n = 1 ; n < count_2 ; n++){     
+              var options = {
+                method: 'GET',
+                uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+                json: true
+              };
+              gData = await rp(options);
+              response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
+              action = null;
+              state = await callSendAPI(sender_psid, response, action);
+              
+              await sleep (200);
+      
+              var options = {
+                method: 'GET',
+                uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+                json: true
+              };
+              gData = await rp(options);
+              response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
+              action = null;
+              state = await callSendAPI(sender_psid, response, action);
+      
+              await sleep (200);
+      
+              var options = {
+                method: 'GET',
+                uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+                json: true
+              };
+              gData = await rp(options);
+              response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
+              action = null;
+              state = await callSendAPI(sender_psid, response, action);
+      
+              await sleep (200);
+      
+              var options = {
+                method: 'GET',
+                uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
+                json: true
+              };
+              gData = await rp(options);
+              response = { "text":`${gData.items[0].title}\nLink: ${gData.items[0].link}`};    
+              action = null;
+              state = await callSendAPI(sender_psid, response, action);
+        }}
+  }
+
+
+
     if (data.Item.job_role.L.length != 1){
     response = { "text":"That is all what I got for now and based on your job interests.",      
     "quick_replies":[
@@ -617,46 +620,68 @@ module.exports = async (sender_psid, event) => {
     
     var data = await updateCheck(sender_psid);
 
-    if (data.Item.companies.L.length > 3){
-      count_1 = 3;
+    if (data.Item.companies.L.length > 8){
+      count_1 = 8;
     } else{
       count_1 = data.Item.companies.L.length;
     }
 
-    if (data.Item.job_role.L.length > 3){
-      count_2 = 3;
-    } else{
+    if (data.Item.job_role.L.length > 4){
+      count_2 = 4;
+    } else {
       count_2 = data.Item.job_role.L.length;
     }
 
 
     if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
-          elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-          elements[elements.length]={"title": "James" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Michelle" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Mike" ,"image_url":"https://mynameuuy.com/MMM1.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Lenda" ,"image_url":"https://mynameuuy.com/MMM2.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Keith" ,"image_url":"https://mynameuuy.com/MMM3.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+          elements[elements.length]={"title": "Jenifer" ,"image_url":"https://mynameuuy.com/MMM4.png", "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
     }} else {
-    for ( i = 1 ; i < count_1 ; i++){
-      for ( n = 1 ; n < count_2 ; n++){     
-          elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-    }}}
+      if (data.Item.companies.L.length == 2) {
+        for ( i = 1 ; i < count_1 ; i++){
+          for ( n = 1 ; n < count_2 ; n++){     
+              elements[elements.length]={"title": "Mike" ,"image_url":"https://mynameuuy.com/MMM1.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+              elements[elements.length]={"title": "Lenda" ,"image_url":"https://mynameuuy.com/MMM2.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+              elements[elements.length]={"title": "Keith" , "image_url":"https://mynameuuy.com/MMM3.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+              elements[elements.length]={"title": "Jenifer" ,"image_url":"https://mynameuuy.com/MMM4.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+        }}
+      } else {
+        for ( i = 1 ; i < count_1 ; i++){
+          for ( n = 1 ; n < count_2 ; n++){     
+              elements[elements.length]={"title": "Mike" ,"image_url":"https://mynameuuy.com/MMM1.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+              elements[elements.length]={"title": "Lenda" , "image_url":"https://mynameuuy.com/MMM2.png", "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
+        }}
+      }
+  }
 
-
-
-    if (elements.length > 9)
-    {
-       elements.length = 9;
+  // Shuffle if the list is so long.
+  newElements = [];
+    if (elements.length > 10){
+      no = elements.length
+      newElements[0] = elements[Math.floor(Math.random() * no)]
+      newElements[1] = elements[Math.floor(Math.random() * no)]
+      newElements[2] = elements[Math.floor(Math.random() * no)]
+      newElements[3] = elements[Math.floor(Math.random() * no)]
+      newElements[4] = elements[Math.floor(Math.random() * no)]
+      newElements[5] = elements[Math.floor(Math.random() * no)]
+      newElements[6] = elements[Math.floor(Math.random() * no)]
+      newElements[7] = elements[Math.floor(Math.random() * no)]
+      newElements[8] = elements[Math.floor(Math.random() * no)]
+      newElements[9] = elements[Math.floor(Math.random() * no)]
+    } 
+    else {
+        newElements = elements
     }
-
 
     response = { 
       "attachment":{
         "type":"template",
         "payload":{
           "template_type":"generic",
-          "elements": elements
+          "elements": newElements
         }
       }
     }
@@ -748,8 +773,8 @@ module.exports = async (sender_psid, event) => {
         var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job`);    
         req.end(async function (res) {
         if (res.error) console.log(res.error);
-          elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
-          elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
+          elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://mynameuuy.com/youtube.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
+          elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://mynameuuy.com/youtube.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
       });
     }} else {
       for ( i = 1 ; i < count_1 ; i++){
@@ -757,8 +782,8 @@ module.exports = async (sender_psid, event) => {
           var req = unirest("GET", `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=62ab1f4c93443a29d&q=Interview Tips for ${data.Item.job_role.L[n].S} job in ${data.Item.companies.L[i].S}`);    
           req.end(async function (res) {
           if (res.error) console.log(res.error);
-            elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
-            elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://techolopia.com/wp-content/uploads/2020/10/YouTube-Banner-Size-and-Dimensions-Guide.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
+            elements[elements.length]={"title": res.body.items[0].title ,"image_url":"https://mynameuuy.com/youtube.png", "subtitle":res.body.items[0].snippet, "default_action": {"type": "web_url","url": `${res.body.items[0].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[0].link,"title":"Watch on Youtube"}]}
+            elements[elements.length]={"title": res.body.items[1].title ,"image_url":"https://mynameuuy.com/youtube.png", "subtitle":res.body.items[1].snippet, "default_action": {"type": "web_url","url": `${res.body.items[1].link}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":res.body.items[1].link,"title":"Watch on Youtube"}]}
         });
     }}}
     await sleep(2000)

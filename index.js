@@ -4,13 +4,27 @@ path = require('path'),
 createUsersTable = require("./local_modules/database/create_users_table"),
 updateUserData = require("./local_modules/database/update_user_data"),
 OTN = require ("./local_modules/messenger/OTN"),
-callbackSetup = require("./local_modules/messenger/m_setUp"),
+//callbackSetup = require("./local_modules/messenger/m_setUp"),
 subscribePage = require("./local_modules/messenger/page_subscribe"),
 whiteList = require("./local_modules/messenger/white_list"),
 getStarted = require("./local_modules/messenger/get_started"),
 persistentMenu = require("./local_modules/messenger/persistent_menu"),
 handleMessages = require("./local_modules/messenger/handle_messages"),
 handlePostbacks = require("./local_modules/messenger/handle_postbacks");
+
+// Creating the App object in express.
+app = express();
+// Using body parser to read the Requst Body from the webhook.
+app.use(bodyParser.json());
+
+// Setting Views & Public Files folders. 
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
+// Using EJS engine to render pages.
+app.set("view engine", "ejs");
+require('dotenv').config();
+
+
 
 // Calling ASYNC function to Setup the App in order.
 appStart();
@@ -24,19 +38,6 @@ async function appStart(){
   await persistentMenu();
   //await callbackSetup();
 }
-
-// Creating the App object in express.
-app = express();
-
-// Using body parser to read the Requst Body from the webhook.
-app.use(bodyParser.json());
-
-// Setting Views & Public Files folders. 
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
-
-// Using EJS engine to render pages.
-app.set("view engine", "ejs");
 
 
 // Calling OTN Function to check for and send Reminders periodically.

@@ -8,9 +8,8 @@ get_reviews = require("../other/get_reviews");
 module.exports = async (sender_psid, webhook_event) => {
   
   data = await updateCheck(sender_psid);
-
-  state = await senderEffect(sender_psid, app, "mark_seen");
-  state = await senderEffect(sender_psid, app, "typing_on");
+  await senderEffect(sender_psid, app, "mark_seen");
+  await senderEffect(sender_psid, app, "typing_on");
 
   if (webhook_event === "AGREED"){
     response = { "text":`Thanks, we will send you Reminders & Insights for your scheduled Interviews in Messenger.`};
@@ -60,7 +59,6 @@ module.exports = async (sender_psid, webhook_event) => {
         ]}
         action = null;
         state = await callSendAPI(sender_psid, response, action);
-        current = data.Item.review_till.N;
       } else {
         response = { "text":`We can't find data for this company name.`};
         action = null;
@@ -122,8 +120,7 @@ module.exports = async (sender_psid, webhook_event) => {
     // Delete Data Intent
     else if (intent === "reminders"){
     if (nlp.entities['job_role:job_role'] && nlp.entities['wit$datetime:datetime']){
-      console.log("??????????")
-      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].body}`);
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
       var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       var new_date = `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ,${date.getFullYear()}`;
@@ -143,8 +140,8 @@ module.exports = async (sender_psid, webhook_event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
     } else if (nlp.entities['wit$datetime:datetime']){
-      console.log("FDFDFS")
-      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].body}`);
+      console.log(nlp.entities['wit$datetime:datetime'][0])
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
       var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       var new_date = `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ,${date.getFullYear()}`;

@@ -1,7 +1,9 @@
+
 // Function to check the OTN tokens and reminders dates.
 const unirest = require("unirest"),
 callSendAPI = require("./callSendAPI"),
 getAll = require("../database//get_all_keys"),
+updateCheck = require("../database/updateCheck"),
 updateUserData = require("../database/update_user_data");
 
 module.exports = async () => {
@@ -15,6 +17,7 @@ module.exports = async () => {
   for (i = 0 ; i < all.length ; ++i){
     var date = true;
     sender_psid = all[i].PSID.S;
+    check = await updateCheck(sender_psid);
     // Check the current date and compare
     // Date = check.Item.reminder_date.L[check.Item.reminder_date.L.length];
     // var Day = Date.getDate();

@@ -1,6 +1,6 @@
- /// Function to Add Get Started Button for a Page ///
+ // Function to add Get Started button for a page
 const rp = require('request-promise');
-module.exports = async (token) => {
+module.exports = async () => {
   var results;
   try{
     var options = {

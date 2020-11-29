@@ -33,6 +33,10 @@ To send reminders to user using the dates data we got from the Wit App, we need 
 
 To connect users with Mentors in the same Messenger conversation, we need to a data field for each user and mentor. It will be done through the webhook by checking the user and see whether he is a mentor or user. For Mentors, we need another field that indicate whether he is available or not.
 
+### Provide a way to reset the App or delete the data
+
+It is helpful when we provide a way for the user to reset the App settings and data to start over. Some users might enter sensetive data by mistake and need way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App there are feature to do so by using quick reply. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
+
 ## How to install and use this App
 
 ### Requirements:
