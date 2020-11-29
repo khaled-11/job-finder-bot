@@ -1,4 +1,4 @@
-/// Function to send Email Notifications to the users ///
+// Function to send Email Notifications to the users
 "use strict";
 const nodemailer = require('nodemailer');
 require('dotenv').config();

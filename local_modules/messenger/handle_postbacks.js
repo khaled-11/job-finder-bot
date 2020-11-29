@@ -6,6 +6,7 @@ sendMail = require("../other/mailServer"),
 callSendAPI = require("./callSendAPI"),
 exists = require("../database/check_data"),
 updateCheck = require("../database/updateCheck"),
+updateLimit = require("../database/update_limit"),
 updateUserData = require("../database/update_user_data"),
 updateJobData = require("../database/update_job_data"),
 deleteData = require("../database/delete_data");
@@ -124,6 +125,7 @@ module.exports = async (sender_psid, event) => {
     ]}    
     action = null;
     state = await callSendAPI(sender_psid, response, action);
+    updateLimit(sender_psid,++current)
   }
 
   else if (payload.includes("ADD")){
@@ -535,6 +537,7 @@ module.exports = async (sender_psid, event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
     current = data.Item.review_till.N;
+    updateLimit(sender_psid,1)
   }
 
   else if (payload === "COMPANIES"){

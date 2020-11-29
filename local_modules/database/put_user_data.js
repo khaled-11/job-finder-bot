@@ -23,6 +23,7 @@ module.exports = async (data) => {
             'reminder_info' : {L:  [{"S": "Reminders"}]},
             'reminder_date' : {L:  [{"S": "Reminder Date"}]},
             'N_token' : {S: ``},
+            'review_till' : {N: `0`},
             'connection_state' : {S: ``},
             'connected_with' : {S: ``} 
         }};

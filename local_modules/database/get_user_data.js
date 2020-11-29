@@ -12,7 +12,7 @@ module.exports = async sender_psid => {
         'PSID': {S: sender_psid}
       },
       // The data fields
-      ProjectionExpression: 'PSID, profile_pic_url ,first_name, last_name, general_state, email, job_place, job_role, job_type, companies, N_token, reminder_info, reminder_date, user_type, connection_state, connected_with'
+      ProjectionExpression: 'PSID, review_till, profile_pic_url, first_name, last_name, general_state, email, job_place, job_role, job_type, companies, N_token, reminder_info, reminder_date, user_type, connection_state, connected_with'
     };
     request = ddb.getItem(params);
     data = await request.promise();

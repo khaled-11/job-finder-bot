@@ -4,6 +4,9 @@ fs = require("fs");
 require('dotenv').config();
 
 module.exports = async (sender_psid, response, action, userToken) => {
+
+    // Check for the user connected with. If user and connected with, grab the id
+    persona_id = process.env.MIKE_ID
     // Decalre some variables for the request.
     var state;
     var token = process.env.PAGE_ACCESS_TOKEN;
@@ -23,7 +26,8 @@ module.exports = async (sender_psid, response, action, userToken) => {
         "recipient": {
         "id": sender_psid
         },
-        "message": response
+        "message": response,
+        "persona_id":persona_id
         }
     } 
     // Last option is if the response is an action (Read / Sender Effect)
@@ -32,7 +36,8 @@ module.exports = async (sender_psid, response, action, userToken) => {
         "recipient": {
         "id": sender_psid
         },
-        "sender_action":action
+        "sender_action":action,
+        "persona_id":persona_id
         }
     }
     // Try the request after setting up the request_body.

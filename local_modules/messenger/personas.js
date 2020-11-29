@@ -1,4 +1,4 @@
- /// Function to add personas to the Messenger profile
+ // Function to add personas to the Messenger profile
  const rp = require('request-promise');
  module.exports = async () => {
    var results;
@@ -8,7 +8,7 @@
        uri: `https://graph.facebook.com/v9.0/me/personas?access_token=${process.env.PAGE_ACCESS_TOKEN}`,
        // In this App we will set only one persona for Demo purposes.
        body: {	"name": "Mike",
-       "profile_picture_url": "https://mynameuuy.com/mike.png"
+       "profile_picture_url": "https://mynameuuy.com/Mike.png"
        },
        json: true
    };
