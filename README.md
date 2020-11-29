@@ -19,12 +19,19 @@ This App help people find jobs in the USA and connect users with Mentors on Mess
 
 ### Capture details using Wit.ai
 
+We need to capture information like job preference and company name. This App uses Wit.ai to capture entities in user inputs. For example, when the user say alert me on this Wednesday, the Wit App will capture the date and send back the information. In the code we will check for each intent name and provide the response for this intent. We can check also for entities and add combinations like......
+
 ### APIs for reviews and search results
+
+Now, we need to get reviews using the company name we captured using Wit.ai. Also, we need to get job opportunities for the job preference we got. This App uses Google cutom search API to search indeed, glassdoor and other websites for job posting. We take the job preference data and cutom search these websites then send back the results to the user. Also, we use other API to find Indeed reviews about a specific company name.
 
 ### Messenger One Time Notification for reminders
 
+To send reminders to user using the dates data we got from the Wit App, we need to use OTN feature from Messenger. This is because the reminder can be after 24 hours from the last communication, and OTN will allow the page to send one message to usres in the future after the 24 hours window frame. To implemet this, we need to save the token and set interval to check the dates and tokens.
+
 ### Connect users with Mentors in the same conversation
 
+To connect users with Mentors in the same Messenger conversation, we need to a data field for each user and mentor. It will be done through the webhook by checking the user and see whether he is a mentor or user. For Mentors, we need another field that indicate whether he is available or not.
 
 ## How to install and use this App
 
@@ -66,11 +73,11 @@ Create a new App from the account.  setup Messenger product, and go to the produ
 
 Go to [Wit.ai](http://wit.ai) website, and create new App. In the app dashboard, click setting and copy the "Server Access Token". Add it for the WIT_KEY field in the .env file.
 
-## Run the App:
+### Run the App:
 
 Now, we have completed the required environment variables and the App  is ready to run. If you use your local machine, open a new terminal and  navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Elastic Beanstalk, the platform will refresh the server and add the variables. You may need to comment the ``` callbackSetup ```  import and invoke. This if Elastic Beanstalk gives you an error and can't start the server.  In this case, update the Callback URL in the Messenger App dashboard.
 
-### Train the Wit App:
+#### Train the Wit App:
 
 For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
@@ -84,11 +91,11 @@ For this demo, you need to train the App with some intents and entities. Go to t
     
 </ol>
 
-### Request OTN:
+#### Request OTN:
 
 You need to activate the one time notification for this page. Go to page settings then "Advanced Messaging". Scroll down and find "One-Time Notification" and request it. After you activate this features, the App can send the "Notify Me" template to the users. When a user click this button, the App will get a token for this user. You can use this token to send one message to a user after 24 hours.
 
-### Test on Messenger:
+#### Test on Messenger:
 
 To test the App on Messenger, fllw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. Yu can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
 
@@ -107,32 +114,44 @@ for (i = 0 ; i < all.length ; ++i){
   }
 ```
 
-### Save the API:
+#### Save the API:
 
 This code snippet limit the API usage by saving new companies reviews to the local server. It will check if we have the reviews in the the global data folder first. If not, it will request from the API and save it for the next time.
 
 [![API Save](https://techolopia.com/wp-content/uploads/2020/09/code_snippet.jpg)](https://m.me/118754656624049)
 
 
-### Live link:
+#### Live link:
 
 You can test the App live using this link: https://m.me/100364215214464
 
-## Customize & Contribute:
+## How to build a similar experience:
 
-You can work on improvements for everyone, or customize the App for another use case.
+### Wit App for NLP
 
-### How to customize
+You need to build the conversation model for your App. Think of what the user can say and what onformation you need to capture. Create Wit App and define the intents you may need.
 
-You will find a folder called "local_modules". In this folder you can find and edit responses in some messenger functions. Also, you can change in the database structure and add fields. You can add more functions and handle more intents.
+### Database and schema
 
-### How to contribute
+You may need Database or you can use internal Data structure to save the users Data. Use database to scale and fast processing. Think what details or information you need to save for each user and create your schema.
 
-This sample App is open for contributions. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
+### APIs to connect resources
+
+You may use APIs to find search results or get information from resources. Sent the data to the API and format the results then send it to the user.
+
+### Messenger platform features
+
+Now, see what feature you will need to use from the Messenger platform and connect things togehter. In the webhook you can control many things like routing the conversation and check for OTN optins events.
+
+
+## License and contribution:
 
 ### License
 
 Job Finder bot is [MIT Licensed](https://github.com/khaled-11/job-finder-bot/blob/master/LICENSE).
 
 
+### How to contribute
+
+This sample App is open for contributions. You can work on improvements for everyone, or customize the App for another use case. You can find more information [here](https://github.com/khaled-11/job-finder-bot/blob/master/CONTRIBUTING.md)
 
