@@ -31,7 +31,7 @@ To send reminders to user using the dates data we got from the Wit App, we need 
 
 ### Connect users with Mentors in the same conversation
 
-To connect users with Mentors in the same Messenger conversation, we need to a data field for each user and mentor. It will be done through the webhook by checking the user and see whether he is a mentor or user. For Mentors, we need another field that indicate whether he is available or not.
+This App use Messenger personas to connect users with live mentors. When a user try to connect with a mentor, the App will check the mentor status. If the mentor is available, the App will send the mentor a request to accept the conversation. When the mentor accept the conversation, the App will notify the user and start forward messages. When the App send the message to the user, it will use the persona ID for this mentor. The mentor can end the conversation using a special command. When the mentor end the conversation, this will reset the state in the database and make the mentor available.
 
 ### Provide a way to reset the App or delete the data
 
