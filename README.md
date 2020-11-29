@@ -11,9 +11,19 @@
 
 Every organization can offer their services through a smart chatbot Application. This will increase the productivity and provide a better support for their customers. Users won't need to download a special App to use these services or to access their accounts. For example, a restaurant can offer a delivery service through Messenger App. The user can see the menu, place orders, and track delivery status all in a Messenger conversation. Also, the App can encrypt and store the order history, payment methods, and other details. I built an App that help people find jobs in Messenger. This App help users find job opportunities, and connect users with mentors. Moreover, it can provide practice resources and send interview reminders. Finally, this App can find reviews and information about a specific company. The user can add the company to the job search data and get related opportunities. In this tutorial, I will explain how I built this App, how to use it on your Facebook page, and how to build a similar experience.
 
-## What it does & How I built it
+## What this App does
 
 This App help people find jobs in the USA and connect them with Mentors on Messenger. The App uses Wit.ai to understand the user intent and capture the job preference. It stores the users data in AWS DynamoDB table, so it is scalable. To find job recommendations, the App uses Google Custom Search API. This API can search websites, and return the results in JSON format. Also, this App uses other APIs to get Indeed reviews and the company details. Moreover, the app find and matches users with mentors based on the user job preference data. It can recommend mentors based on the job position only or job position and a company name. The App will check the user data and match based on what it finds. For Wit.ai App, I created intents and entities then I trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. Finally, This App uses Messenger One Time Notification to send reminders to users. Also, it will notify the user over email as well. The user can set a reminder for a job interview, and the App will remind the user with some helpful review topics. This function refresh everyday, and it will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. 
+
+## How I built this App
+
+# Capture details like Company Name using Wit.ai
+
+# APIs to find Job Opportunities, Reviews and Resources
+
+# Messenger One Time Notification for Reminders
+
+# Connect users with Mentors in the same Messenger conversation
 
 
 ## Requirements:
