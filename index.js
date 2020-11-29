@@ -30,8 +30,20 @@ app = express();
 // Using body parser to read the Requst Body from the webhook.
 app.use(bodyParser.json());
 
+// Setting Views & Public Files folders. 
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
+
+// Using EJS engine to render pages.
+app.set("view engine", "ejs");
+
+
 // Calling OTN Function to check for and send Reminders periodically.
-setInterval(function(){OTN()}, 8000);
+setInterval(function(){OTN()}, 800000);
+
+app.get("/", (req, res) => {
+  res.render("index")
+})
 
 ///////////////////////////////////////////////////////
 /// Webhook Endpoint For the Facebook Messenger App ///

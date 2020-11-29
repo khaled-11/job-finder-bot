@@ -141,7 +141,11 @@ You may use APIs to find search results or get information from resources. Sent 
 
 ### Messenger platform features
 
-Now, see what feature you will need to use from the Messenger platform and connect things togehter. In the webhook you can control many things like routing the conversation and check for OTN optins events.
+Now, see what feature you will need to use from the Messenger platform and connect things togehter. In the webhook you can control many things like routing the conversation and check for OTN optins events. Webviews and account linking can do more.
+
+### Deploy the experience
+
+To scale your app and make it available for as many user as you can imagine, we need to deploy this experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. You will need a domain name and connect you instance to this domain.
 
 
 ## License and contribution:

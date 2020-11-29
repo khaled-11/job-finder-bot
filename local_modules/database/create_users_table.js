@@ -1,12 +1,10 @@
-//////////////////////////////////////////////////////////////
-////             Create Messenger Users Table             ////
-////             This is keyed on sender PSID             ////
-//////////////////////////////////////////////////////////////
+// Create Messenger users table keyed on sender PSID
 const AWS = require("aws-sdk");
-// Update the AWS Region.
+const _ = require("lodash");
 AWS.config.update({region: 'us-east-1'});
 
 module.exports = async () => {
+  var result;
   try {
   var ddb = new AWS.DynamoDB();
   var params = {
@@ -32,7 +30,7 @@ module.exports = async () => {
     }
   };
   // Call DynamoDB to create the table if doesn't exist.
-  const request = ddb.createTable(params);
+  request = ddb.createTable(params);
   result = await request.promise();
   console.log("Table Created!");
   } catch (e){
