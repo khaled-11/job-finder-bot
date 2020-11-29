@@ -7,7 +7,7 @@ module.exports = async () => {
   var result;
   try {
   var ddb = new AWS.DynamoDB();
-  var params = {
+  params = {
     AttributeDefinitions: [
       {
         AttributeName: 'PSID',

@@ -3,7 +3,6 @@ const fs = require("fs"),
 callSendAPI = require("./callSendAPI"),
 wit = require("./wit"),
 updateCheck = require("../database/updateCheck"),
-updateLimit = require("../database/update_limit"),
 get_reviews = require("../other/get_reviews");
 
 module.exports = async (sender_psid, webhook_event) => {
@@ -62,7 +61,6 @@ module.exports = async (sender_psid, webhook_event) => {
         action = null;
         state = await callSendAPI(sender_psid, response, action);
         current = data.Item.review_till.N;
-        updateLimit(sender_psid,1)
       } else {
         response = { "text":`We can't find data for this company name.`};
         action = null;

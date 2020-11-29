@@ -6,7 +6,7 @@ var ddb = new AWS.DynamoDB();
 module.exports = async (sender_psid, check) => {
   var exists;
   try {
-    const params = {
+    params = {
       TableName: 'ROBIN_USERS',
       Key: {
         'PSID': {S: sender_psid}

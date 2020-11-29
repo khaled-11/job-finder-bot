@@ -1,15 +1,16 @@
 const express = require('express'),
 bodyParser = require('body-parser'),
+path = require('path'),
 createUsersTable = require("./local_modules/database/create_users_table"),
-updateState = require("./local_modules/database/update_state"),
+updateUserData = require("./local_modules/database/update_user_data"),
 OTN = require ("./local_modules/messenger/OTN"),
-//callbackSetup = require("./local_modules/messenger/m_setUp"),
+callbackSetup = require("./local_modules/messenger/m_setUp"),
 subscribePage = require("./local_modules/messenger/page_subscribe"),
 whiteList = require("./local_modules/messenger/white_list"),
 getStarted = require("./local_modules/messenger/get_started"),
 persistentMenu = require("./local_modules/messenger/persistent_menu"),
-firstMessages = require("./local_modules/messenger/first_handle_messages"),
-firstPostbacks = require("./local_modules/messenger/first_handle_postbacks");
+handleMessages = require("./local_modules/messenger/handle_messages"),
+handlePostbacks = require("./local_modules/messenger/handle_postbacks");
 
 // Calling ASYNC function to Setup the App in order.
 appStart();
@@ -64,8 +65,8 @@ app.post('/webhook', (req, res) => {
           payload = webhook_event.optin.payload;
           PSID = webhook_event.sender.id;
           userToken =  webhook_event.optin.one_time_notif_token;
-          update = updateState(PSID, "N_token", `${userToken}`);
-          firstMessages(sender_psid, "AGREED");
+          update = updateUserData(PSID, "N_token", `${userToken}`);
+          handleMessages(sender_psid, "AGREED");
         }
         // Can be used for logging Conversation
         if(webhook_event.message && webhook_event.message.is_echo == true && webhook_event.message.text){
@@ -74,9 +75,9 @@ app.post('/webhook', (req, res) => {
         // Pass the event to handlePostBack function if Quick Reply or Postback.
         // Otherwise, pass the event to handleMessage function.
         if (sender_psid != process.env.PAGE_ID && webhook_event.message && !webhook_event.message.quick_reply) {
-          firstMessages(sender_psid, webhook_event);  
+          handleMessages(sender_psid, webhook_event);  
         } else if (sender_psid != process.env.PAGE_ID && (webhook_event.postback || (webhook_event.message && webhook_event.message.quick_reply))) {
-          firstPostbacks(sender_psid, webhook_event,app);
+          handlePostbacks(sender_psid, webhook_event,app);
         }
       }});
 

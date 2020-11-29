@@ -1,20 +1,20 @@
-/// Function to Whitelist the domain name //
+// Function to Whitelist the domain name
 const rp = require('request-promise');
 
 module.exports = async () => {
-token = process.env.PAGE_ACCESS_TOKEN;
-// Construct the message body
-var request_body;
-// Create a request Body.
-request_body = {
-  "whitelisted_domains": [`${process.env.URL}`,"https://www.youtube.com","https://techolopia.com"]
-}
+  var state;
+  token = process.env.PAGE_ACCESS_TOKEN;
+  // Construct the message body
+  var request_body;
+  request_body = {
+    "whitelisted_domains": [`${process.env.URL}`,"https://www.youtube.com","https://techolopia.com"]
+  }
   // Try the request after setting up the request_body.
   try{
     var state;
     var options = {
       method: 'POST',
-      uri: `https://graph.facebook.com/v7.0/me/messenger_profile?access_token=${token}`,
+      uri: `https://graph.facebook.com/v9.0/me/messenger_profile?access_token=${token}`,
       body: request_body,
       json: true
     };
@@ -23,6 +23,7 @@ request_body = {
   }
   catch (e){
       console.log("whitelist domains has error: ", e)
+      throw e;
   }
    return state;
 }

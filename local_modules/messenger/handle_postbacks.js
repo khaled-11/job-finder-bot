@@ -6,9 +6,8 @@ sendMail = require("../other/mailServer"),
 callSendAPI = require("./callSendAPI"),
 exists = require("../database/check_data"),
 updateCheck = require("../database/updateCheck"),
-updateState = require("../database/update_state"),
-updateLimit = require("../database/update_limit"),
-updateData = require("../database/update_data"),
+updateUserData = require("../database/update_user_data"),
+updateJobData = require("../database/update_job_data"),
 deleteData = require("../database/delete_data");
 
 module.exports = async (sender_psid, event) => {
@@ -33,7 +32,7 @@ module.exports = async (sender_psid, event) => {
     isNew = await exists(sender_psid);
     if (isNew === true){
       data = await updateCheck(sender_psid);
-      response = { "text":`Hi ${data.Item.first_name.S} 👋,\nWelcome back! We did not delete your data, and job preference. If you want us to delete your data to start again, please type "Delete my data"`};
+      response = { "text":`Hi ${data.Item.first_name.S} 👋,\nWelcome back! We did not delete your data. If you want us to delete your data and start again, please type "Delete my data"`};
       action = null;
       await callSendAPI(sender_psid, response, action);
     } else {
@@ -41,19 +40,19 @@ module.exports = async (sender_psid, event) => {
         fs.mkdirSync(`./data/${sender_psid}`);
       }
       data = await updateCheck(sender_psid);
-      response = { "text":`Hi ${data.Item.first_name.S} 👋 I am a job finder bot sample! \nI can assist you to find a job in the USA 🔍. I can also send you reminders for job interviews or connect you with mentors 👀.\nIn the menu, you can find many other things I can do!`};
+      response = { "text":`Hi ${data.Item.first_name.S} 👋 I am a job finder bot! I can assist you to find jobs in the USA 🔍. I can also send reminders for job interviews and connect you with mentors 👀.\nIn the menu, you can find other things I can do!`};
       action = null;
       await callSendAPI(sender_psid, response, action);
-      response = { "text":`To start, and add a job preference, please tell me what job type are you looking for?\nEx: I am looking for a full time project manager role in California.`};
+      response = { "text":`To start, please add a job preference. Can you please tell me what job type are you looking for?\nEx: I am looking for a full time project manager role in California.`};
       action = null;
       await callSendAPI(sender_psid, response, action);
   }} 
 
   else if (payload.includes("job_preference_yes")){
     var job_detail = payload.split("_");
-    updateData(sender_psid,"job_role",job_detail[3])
-    updateData(sender_psid,"job_type",job_detail[4])
-    updateData(sender_psid,"job_place",job_detail[5])
+    updateJobData(sender_psid,"job_role",job_detail[3])
+    updateJobData(sender_psid,"job_type",job_detail[4])
+    updateJobData(sender_psid,"job_place",job_detail[5])
     response = { "text":`Nice, your job preference has been set, now I can assist you during your process.\nLets get that job!`};
     action = null;
     await callSendAPI(sender_psid, response, action);
@@ -125,7 +124,6 @@ module.exports = async (sender_psid, event) => {
     ]}    
     action = null;
     state = await callSendAPI(sender_psid, response, action);
-    updateLimit(sender_psid,++current)
   }
 
   else if (payload.includes("ADD")){
@@ -144,7 +142,7 @@ module.exports = async (sender_psid, event) => {
       response = { "text":`I added ${name} to the companies list.`};    
       action = null;
       state = await callSendAPI(sender_psid, response, action);
-      updateData(sender_psid,"companies",name);
+      updateJobData(sender_psid,"companies",name);
     }
     userMenu(sender_psid);
   }
@@ -187,7 +185,7 @@ module.exports = async (sender_psid, event) => {
       for ( n = 1 ; n < count_2 ; n++){
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -199,7 +197,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
           json: true
         };
         gData = await rp(options);
@@ -211,7 +209,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
           json: true
         };
         gData = await rp(options);
@@ -223,7 +221,7 @@ module.exports = async (sender_psid, event) => {
 
         var options = {
           method: 'GET',
-          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S} for ${data.Item.companies.L[i].S}`,
+          uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S} for ${data.Item.companies.L[i].S}`,
           json: true
         };
         gData = await rp(options);
@@ -235,7 +233,7 @@ module.exports = async (sender_psid, event) => {
         for ( n = 1 ; n < count_2 ; n++){
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=afcb88e766228200f&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -247,7 +245,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=eed7a94624d8a8b04&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -259,7 +257,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=9a6b1ccdd196ef132&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -271,7 +269,7 @@ module.exports = async (sender_psid, event) => {
   
           var options = {
             method: 'GET',
-            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_type.L[n].S}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_KEY}&cx=abf71f7204207fa66&q=${data.Item.job_type.L[n].S} ${data.Item.job_role.L[n].S} jobs in ${data.Item.job_place.L[n].S}`,
             json: true
           };
           gData = await rp(options);
@@ -314,8 +312,8 @@ module.exports = async (sender_psid, event) => {
   }
 
   else if (payload.includes("@")){
-    sendMail.sendNotification(`${payload.split(" ")[0]}`, "Email From Robin", "This is just a confirmation!"); 
-    updateState (sender_psid, "email" ,`${payload.split(" ")[0]}`)
+    sendMail.sendNotification(`${payload.split(" ")[0]}`, "Email From Job Finder Bot", "This is just a confirmation!"); 
+    updateUserData (sender_psid, "email" ,`${payload.split(" ")[0]}`)
     response = {"attachment": {
       "type":"template",
       "payload": {
@@ -352,8 +350,8 @@ module.exports = async (sender_psid, event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
     date = payload.substring(9);
-    updateData(sender_psid,"reminder_date",date)
-    updateData(sender_psid,"reminder_info","general")
+    updateJobData(sender_psid,"reminder_date",date)
+    updateJobData(sender_psid,"reminder_info","general")
     response = {"text": `I scheduled a reminder the day before ${date}. Click Notify Me to Receive Notification on Messenger.`,
     "quick_replies":[
       {
@@ -378,8 +376,8 @@ module.exports = async (sender_psid, event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
     name = payload.split("_");
-    updateData(sender_psid,"reminder_date",name[1])
-    updateData(sender_psid,"reminder_info",)
+    updateJobData(sender_psid,"reminder_date",name[1])
+    updateJobData(sender_psid,"reminder_info",)
     response = {"text": `I scheduled a reminder the day before ${name[1]} for ${name[2]}. Click Notify Me to Receive Notification on Messenger.`,
     "quick_replies":[
       {
@@ -448,21 +446,13 @@ module.exports = async (sender_psid, event) => {
 
   else if (payload === "INFO"){
     response = {
-      "text": "You can ask me things like:\n- Do you have info about 'CVS'?\n- Can you send me reviews for 'UPS'?\n*Also, you can an option below to look for the companies in your list:*",
+      "text": "You can ask me things like:\n- I need information about 'CVS'\n- Can you send me reviews for 'UPS'?\nAlso, you can add any of the companies you asked for to your favorites. This will focus on these companies in the job opportunities search and provide relative mentors.",
       "quick_replies":[
-          {
-            "content_type":"text",
-            "title":"Company Info",
-            "payload":"COMPANIES"
-          }, {
-            "content_type":"text",
-            "title":"Company Review",
-            "payload":"COMPANIES_REVIEW"
-          }, {
-            "content_type":"text",
-            "title":"Main Menu",
-            "payload":"MENU"
-          }
+        {
+        "content_type":"text",
+        "title":"Main Menu",
+        "payload":"MENU"
+        }
       ]
     };
     action = null;
@@ -542,7 +532,6 @@ module.exports = async (sender_psid, event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
     current = data.Item.review_till.N;
-    updateLimit(sender_psid,1)
   }
 
   else if (payload === "COMPANIES"){
@@ -643,21 +632,15 @@ module.exports = async (sender_psid, event) => {
 
     if (data.Item.companies.L.length == 1){
       for ( n = 1 ; n < count_2 ; n++){
-   
           elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
           elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-        
           elements[elements.length]={"title": "James" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
           elements[elements.length]={"title": "Michelle" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews.`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
     }} else {
     for ( i = 1 ; i < count_1 ; i++){
-      for ( n = 1 ; n < count_2 ; n++){
-        
+      for ( n = 1 ; n < count_2 ; n++){     
           elements[elements.length]={"title": "Diego" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
           elements[elements.length]={"title": "Emma" , "subtitle":`Counselor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-
-          elements[elements.length]={"title": "James" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
-          elements[elements.length]={"title": "Michelle" , "subtitle":`Mentor: Great for ${data.Item.job_role.L[n].S} Interviews with ${data.Item.companies.L[i].S}`, "default_action": {"type": "web_url","url": `https://techolopia.com`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":"https://techolopia.com","title":"Contact"}, {"type":"web_url","url":"https://techolopia.com","title":"Profile"}]}
     }}}
 
 
