@@ -3,7 +3,7 @@ bodyParser = require('body-parser'),
 createUsersTable = require("./local_modules/database/create_users_table"),
 updateState = require("./local_modules/database/update_state"),
 OTN = require ("./local_modules/messenger/OTN"),
-callbackSetup = require("./local_modules/messenger/m_setUp"),
+//callbackSetup = require("./local_modules/messenger/m_setUp"),
 subscribePage = require("./local_modules/messenger/page_subscribe"),
 whiteList = require("./local_modules/messenger/white_list"),
 getStarted = require("./local_modules/messenger/get_started"),
@@ -21,7 +21,7 @@ async function appStart(){
   await subscribePage();
   await getStarted();
   await persistentMenu();
-  await callbackSetup();
+  //await callbackSetup();
 }
 
 // Creating the App object in express.
