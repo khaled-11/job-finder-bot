@@ -127,7 +127,7 @@ You need to activate the one time notification for this page. Go to page setting
 
 #### Test on Messenger:
 
-To test the App on Messenger, fllw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. Yu can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
+To test the App on Messenger, follw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. You can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
 
 ``` JAVASCRIPT
 // Main file
