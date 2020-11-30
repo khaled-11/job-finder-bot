@@ -50,7 +50,7 @@ This App uses Messenger One Time Notification to send reminders to users. After 
 This App uses Messenger personas to connect users with live mentors. We created Messenger persona for mentors with their names and profile pictures. When a user try to connect with a mentor, the App will check the mentor status in the database. If the mentor is available, the App will send the mentor a request to accept the conversation or refuse. If the mentor accept the conversation, the App will notify the user and update the database. Then the app will forward messages between both parties. When the mentor send a message to the user, the App will use the persona ID we created to send the message to the user. The mentor can end the conversation using a special command, or exit the App. When the mentor end the conversation, this will reset the database and make the mentor available.
 
 <div align ="center">
-  <img width="800" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
+  <img width="800" src="https://media.giphy.com/media/VsBeJSUr8UXFwEHRMV/giphy.gif">
 </div>
 
 
@@ -59,7 +59,7 @@ This App uses Messenger personas to connect users with live mentors. We created 
 It is very helpful to provide a way for users to delete their data and start over. Some users might enter some sensetive data by mistake and need a way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App we provide a way to delete the data and exit or start over. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
 
 <div align ="center">
-  <img width="800" height="400" src="https://media.giphy.com/media/VsBeJSUr8UXFwEHRMV/giphy.gif">
+    <img width="800" src="https://media.giphy.com/media/F5FlgxHAaX9Y1Ne4o5/giphy.gif">
 </div>
 
 
