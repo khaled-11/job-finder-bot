@@ -109,7 +109,7 @@ Now, we have completed the required environment variables and the App  is ready 
 
 #### Train the Wit App:
 
-For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
+For this demo, you need to train the App with some intents and entities. There is an export from the current Wit App which you can use instead of training new App. Otherwise, go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
 <ol>
   <li>job_preference: The App uses this to capture the job preference  from the user input. You can train the app with utterances like: "I need  a {full time} {Software engineer} job in {California}". Define a  "job_role", "job_role" & "state" for this intent in the same order.  You can add utterances with one or two only, but you need to define all.</li> 
