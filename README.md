@@ -159,7 +159,7 @@ You can test the App live using this link: https://m.me/100364215214464
 
 ### Wit App for NLP
 
-First, you need a way to understand the user intent easily. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
+First, you need a way to understand the user intent easily. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Then, train the app with example utterances. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
 
 ### Database and schema
 
@@ -171,7 +171,7 @@ You may need to use APIs to find search results or get information from resource
 
 ### Messenger platform features
 
-There are many features you can use on the Messenger platform like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the ]Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice.
+There are many features you can use on the Messenger platform like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the [Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice.
 
 ### Deploy the experience
 
