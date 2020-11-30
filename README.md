@@ -21,21 +21,41 @@ This App help people find jobs in the USA and connect users with Mentors on Mess
 
 We need to capture information like job preference and company name. This App uses Wit.ai to capture entities in user inputs. For example, when the user say alert me on this Wednesday, the Wit App will capture the date and send back the information. In the code we will check for each intent name and provide the response for this intent. We can check also for entities and add combinations like......
 
+<div align ="center">
+  <img width="800" height="400" src="https://media.giphy.com/media/824sB4Whn1BDHuiB6Z/giphy.gif">
+</div>
+
 ### APIs for reviews and search results
 
 Now, we need to get reviews using the company name we captured using Wit.ai. Also, we need to get job opportunities for the job preference we got. This App uses Google cutom search API to search indeed, glassdoor and other websites for job posting. We take the job preference data and cutom search these websites then send back the results to the user. Also, we use other API to find Indeed reviews about a specific company name.
+
+<div align ="center">
+  <img width="800" height="400" src="https://media.giphy.com/media/iUR2ga5rhwJWPM618J/giphy.gif">
+</div>
 
 ### Messenger One Time Notification for reminders
 
 To send reminders to user using the dates data we got from the Wit App, we need to use OTN feature from Messenger. This is because the reminder can be after 24 hours from the last communication, and OTN will allow the page to send one message to usres in the future after the 24 hours window frame. To implemet this, we need to save the token and set interval to check the dates and tokens.
 
+<div align ="center">
+  <img width="800" height="400" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
+</div>
+
 ### Connect users with Mentors in the same conversation
 
 This App use Messenger personas to connect users with live mentors. When a user try to connect with a mentor, the App will check the mentor status. If the mentor is available, the App will send the mentor a request to accept the conversation. When the mentor accept the conversation, the App will notify the user and start forward messages. When the App send the message to the user, it will use the persona ID for this mentor. The mentor can end the conversation using a special command. When the mentor end the conversation, this will reset the state in the database and make the mentor available.
 
+<div align ="center">
+  <img width="800" height="400" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
+</div>
+
 ### Provide a way to reset the App or delete the data
 
 It is helpful when we provide a way for the user to reset the App settings and data to start over. Some users might enter sensetive data by mistake and need way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App there are feature to do so by using quick reply. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
+
+<div align ="center">
+  <img width="800" height="400" src="https://media.giphy.com/media/VsBeJSUr8UXFwEHRMV/giphy.gif">
+</div>
 
 ## How to install and use this App
 
