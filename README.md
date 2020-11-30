@@ -159,23 +159,23 @@ You can test the App live using this link: https://m.me/100364215214464
 
 ### Wit App for NLP
 
-You need to build the conversation model for your App. Think of what the user can say and what onformation you need to capture. Create Wit App and define the intents you may need.
+First, you need a way to understand the user intent easily. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
 
 ### Database and schema
 
-You may need Database or you can use internal Data structure to save the users Data. Use database to scale and fast processing. Think what details or information you need to save for each user and create your schema.
+You may need Database or you can use internal Data structure to save the users Data. If you expect high trafic, you might consider a cloud based database. This App uses NoSQL DynamoDB to save the users data. See what data you might need to save about users and design your schema and write the required functions.
 
 ### APIs to connect resources
 
-You may use APIs to find search results or get information from resources. Sent the data to the API and format the results then send it to the user.
+You may need to use APIs to find search results or get information from resources. You can capture the entities using Wit.ai, then send the details to a search API or query another database. Use Async/Await to wait for the promise, then format the response and send it to the user. 
 
 ### Messenger platform features
 
-Now, see what feature you will need to use from the Messenger platform and connect things togehter. In the webhook you can control many things like routing the conversation and check for OTN optins events. Webviews and account linking can do more.
+There are many features you can use on the Messenger platform like account linking, private replies, and more. For example, if you need to sell, the Messenger receipt template will be great choice.
 
 ### Deploy the experience
 
-To scale your app and make it available for as many user as you can imagine, we need to deploy this experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. You will need a domain name and connect you instance to this domain.
+To scale your app and make it available for as many user, we may need to deploy the final experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. Most of the services are similar, and will require just uploads and environment variables.
 
 
 ## License and contribution:
