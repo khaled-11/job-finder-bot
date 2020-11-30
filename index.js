@@ -4,7 +4,7 @@ path = require('path'),
 createUsersTable = require("./local_modules/database/create_users_table"),
 updateUserData = require("./local_modules/database/update_user_data"),
 OTN = require ("./local_modules/messenger/OTN"),
-//callbackSetup = require("./local_modules/messenger/m_setUp"),
+callbackSetup = require("./local_modules/messenger/m_setUp"),
 subscribePage = require("./local_modules/messenger/page_subscribe"),
 whiteList = require("./local_modules/messenger/white_list"),
 getStarted = require("./local_modules/messenger/get_started"),
@@ -26,7 +26,7 @@ app.set("view engine", "ejs");
 require('dotenv').config();
 
 // Calling ASYNC function to Setup the App in order.
-//appStart();
+appStart();
 async function appStart(){
   // Table for Messenger Users.
   await createUsersTable();
@@ -35,8 +35,8 @@ async function appStart(){
   await subscribePage();
   await getStarted();
   await persistentMenu();
-  //await persona();
-  //await callbackSetup();
+  await persona();
+  await callbackSetup();
 }
 
 // Calling OTN Function to check for and send Reminders periodically.
