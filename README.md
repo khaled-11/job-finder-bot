@@ -38,7 +38,7 @@ After we capture the information, we need to get the required data. This App use
 
 ### Messenger One Time Notification for reminders
 
-This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. The function will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. This response will use the OTN token we saved in the database. This OTN allow the page to send one message to userss in the future outside the 24 hours window frame
+This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. The function will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. This response will use the OTN token we saved in the database. This OTN allow the page to send one message to users in the future outside the 24 hours window frame
 
 <div align ="center">
   <img width="800" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
