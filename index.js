@@ -68,10 +68,7 @@ app.post('/webhook', (req, res) => {
           update = updateUserData(PSID, "N_token", `${userToken}`);
           handleMessages(sender_psid, "AGREED");
         }
-        // Can be used for logging Conversation
-        if(webhook_event.message && webhook_event.message.is_echo == true && webhook_event.message.text){
-         // botLog(webhook_event.recipient.id , webhook_event.message.text, "bot", "Message")
-        }
+
         // Pass the event to handlePostBack function if Quick Reply or Postback.
         // Otherwise, pass the event to handleMessage function.
         if (sender_psid != process.env.PAGE_ID && webhook_event.message && !webhook_event.message.quick_reply) {

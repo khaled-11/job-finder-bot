@@ -3,11 +3,13 @@ const rp = require('request-promise'),
 fs = require("fs");
 require('dotenv').config();
 
-module.exports = async (sender_psid, response, action, userToken) => {
-
-    // Check for the user connected with. If user and connected with, grab the id
-    persona_id = process.env.MIKE_ID
+module.exports = async (sender_psid, response, action, userToken, personaID) => {
     // Decalre some variables for the request.
+    if (personaID){
+        persona_id = personaID
+    } else {
+        persona_id = null
+    }
     var state;
     var token = process.env.PAGE_ACCESS_TOKEN;
     // Check if the request body is an action, OTN or a regular response.

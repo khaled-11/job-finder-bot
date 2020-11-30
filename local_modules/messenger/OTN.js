@@ -19,7 +19,8 @@ module.exports = async () => {
     sender_psid = all[i].PSID.S;
     check = await updateCheck(sender_psid);
     // Check the current date and compare
-    // Date = check.Item.reminder_date.L[check.Item.reminder_date.L.length];
+    // Date = check.Item.reminder_date.S;
+    // info = check.Item.reminder_info.S;
     // var Day = Date.getDate();
     // var Month = Date.getMonth();
     // var Year = Date.getFullYear();
@@ -29,6 +30,7 @@ module.exports = async () => {
       userToken = check.Item.N_token.S;
       action = null;
       PSID = null;
+      // Send message with quick replies to turn the user to active state.
       response = {"text":"This is a test For the OTN notification message.\nThe function is scheduled every day to check if the user have remainders and send notification one day before.",
       "quick_replies":[
         {

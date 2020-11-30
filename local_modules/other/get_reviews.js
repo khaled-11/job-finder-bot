@@ -17,7 +17,6 @@ module.exports = async (name, sender_psid) => {
                         }
                         console.log("The file was saved!")
                     })
-
                     fs.writeFile(`./global/reviews_${name}.json`, JSON.stringify(res.body.reviews), function(err) {
                         if (err) {
                             console.log(err)

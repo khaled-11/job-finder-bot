@@ -4,17 +4,18 @@ callSendAPI = require("./callSendAPI"),
 wit = require("./wit"),
 updateCheck = require("../database/updateCheck"),
 updateLimit = require("../database/update_limit"),
+updateUserData = require("../database/update_user_data"),
 get_reviews = require("../other/get_reviews");
 
 module.exports = async (sender_psid, webhook_event) => {
   // Get the user data
   data = await updateCheck(sender_psid);
-  // Send sender effects for all messages
-  await senderEffect(sender_psid, app, "mark_seen");
-  await senderEffect(sender_psid, app, "typing_on");
 
   // If this is an agree for OTN request.
   if (webhook_event === "AGREED"){
+    // Send sender effects for all messages
+    await senderEffect(sender_psid, app, "mark_seen");
+    await senderEffect(sender_psid, app, "typing_on");
     response = { "text":`Thanks, we will send you Reminders & Insights for your scheduled Interviews in Messenger.`,
     "quick_replies":[
       {
@@ -26,8 +27,58 @@ module.exports = async (sender_psid, webhook_event) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action);
   } 
+  // If this is the dummy mentor we create
+  else if (sender_psid === process.env.MIKE_FB_ID){
+    if (webhook_event.message.text === "/exit"){
+      // Send reply to confirm and update the database status
+      response = { "text":`Ok, now we updated your status. See you again shortly!`};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action);
+      updateUserData (sender_psid, "connection_state" ,`not available`)
+    } else if (webhook_event.message.text === "/end"){
+      // End the conversation and update the database here
+      response = { "text":`Ok, now the conversation is ended! We will notify you when other users request to contact you.`};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action);
+      updateUserData (sender_psid, "connected_with" ,``)
+      updateUserData (sender_psid, "connection_state" ,`available`)
+      updateUserData (data.Item.connected_with.S, "connected_with" ,``)
+      response = { "text":`Mike end the conversation. Now you can communicate with the bot.`};
+      action = null;
+      state = await callSendAPI(data.Item.connected_with.S, response, action);
+
+    } else if (webhook_event.message.text === "/available") {
+      // Send reply to confirm and update the database
+      response = { "text":`Welcome back, we will notify you when users request to contact you.`};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action);
+      updateUserData (sender_psid, "connection_state" ,`available`)
+    } else {
+      // Iif the mentor is connected with a user.
+      if (data.Item.connected_with.S !== ""){
+        await senderEffect(sender_psid, app, "mark_seen");
+        response = { "text":webhook_event.message.text};
+        action = null;
+        state = await callSendAPI(data.Item.connected_with.S, response, action, null, `${process.env.MIKE_ID}`);
+      } else {
+        // If no connection and the mentor send message
+        response = { "text":`There is not much to do. We will notify you when users ask to connect with you.`};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action);
+      }
+    }
+  }
+  else if (data.Item.connected_with.S !== ""){
+    await senderEffect(sender_psid, app, "mark_seen");
+    response = { "text":webhook_event.message.text};
+    action = null;
+    state = await callSendAPI(data.Item.connected_with.S, response, action);
+  }
   // If it is a regular message
   else {
+    // Send sender effects for all messages
+    await senderEffect(sender_psid, app, "mark_seen");
+    await senderEffect(sender_psid, app, "typing_on");
     // Get the message from the event and process using Wit.ai
     let received_message = webhook_event.message;
     var nlp = await wit(received_message.text);
