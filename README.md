@@ -171,7 +171,7 @@ You may need to use APIs to find search results or get information from resource
 
 ### Messenger platform features
 
-There are many features you can use on the Messenger platform like account linking, private replies, and more. For example, if you need to sell, the Messenger receipt template will be great choice.
+There are many features you can use on the Messenger platform like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the ]Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice.
 
 ### Deploy the experience
 
