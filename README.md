@@ -15,27 +15,53 @@ Every organization can offer their services through a smart chatbot Application.
 
 ## What this App does & How I built it
 
-This App help people find jobs in the USA and connect users with Mentors on Messenger. The App uses Wit.ai to understand the user intent and capture the job preference. It stores the users data in AWS DynamoDB table, so it is scalable. To find job recommendations, the App uses Google Custom Search API. This API can search websites, and return the results in JSON format. Also, this App uses other APIs to get Indeed reviews and the company details. Moreover, the app find and matches users with mentors based on the user job preference data. It can recommend mentors based on the job position only or job position and a company name. The App will check the user data and match based on what it finds. For Wit.ai App, I created intents and entities then I trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user if it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. Finally, This App uses Messenger One Time Notification to send reminders to users. Also, it will notify the user over email as well. The user can set a reminder for a job interview, and the App will remind the user with some helpful review topics. This function refresh everyday, and it will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. 
+This Chatbot App uses Wit.ai to understand the user intent and capture the job preference. Then, it stores the users data in AWS DynamoDB table to make it scalable. To find matching results and reviews, it calls Google custom search API and other APIs. Moreover, this App uses Messenger One Time Notification to send reminders to users outside of the 24 hours frame. Also, users can connect and chat with Mentors in the same conversation using Messenger Personas. Finally, this App provides an easy way for users to delete their data or start over.
+
 
 ### Capture details using Wit.ai
 
-We need to capture information like job preference and company name. This App uses Wit.ai to capture entities in user inputs. For example, when the user say alert me on this Wednesday, the Wit App will capture the date and send back the information. In the code we will check for each intent name and provide the response for this intent. We can check also for entities and add combinations like......
+We need to capture information like job preference and company name. Also, the dates in the remiders intent to schedule the reminder. This App uses Wit.ai to capture entities in the user inputs and save it in a database. We defined intents and entities then we trained the App with some possible utterances. Some of the utterances like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user when it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way.
+
+<div align ="center">
+  <img width="800" src="https://media.giphy.com/media/824sB4Whn1BDHuiB6Z/giphy.gif">
+</div>
+
 
 ### APIs for reviews and search results
 
-Now, we need to get reviews using the company name we captured using Wit.ai. Also, we need to get job opportunities for the job preference we got. This App uses Google cutom search API to search indeed, glassdoor and other websites for job posting. We take the job preference data and cutom search these websites then send back the results to the user. Also, we use other API to find Indeed reviews about a specific company name.
+After we capture the information, we need to get the required data. This App uses Wextractor API to get Indeed reviews and Crunchbase for the company details. Also, it uses Google cutom search API to cutom search indeed, glassdoor and other websites for job posting. We use the data for this user from the database to cutom search these websites to find matching opportunities. The API send JSON response, then the App format the results and send the response to the user.
+
+<div align ="center">
+  <img width="800" src="https://media.giphy.com/media/iUR2ga5rhwJWPM618J/giphy.gif">
+</div>
+
 
 ### Messenger One Time Notification for reminders
 
-To send reminders to user using the dates data we got from the Wit App, we need to use OTN feature from Messenger. This is because the reminder can be after 24 hours from the last communication, and OTN will allow the page to send one message to usres in the future after the 24 hours window frame. To implemet this, we need to save the token and set interval to check the dates and tokens.
+This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. The function will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. This response will use the OTN token we saved in the database. This OTN allow the page to send one message to users in the future outside the 24 hours window frame
+
+<div align ="center">
+  <img width="800" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
+</div>
+
 
 ### Connect users with Mentors in the same conversation
 
-This App use Messenger personas to connect users with live mentors. When a user try to connect with a mentor, the App will check the mentor status. If the mentor is available, the App will send the mentor a request to accept the conversation. When the mentor accept the conversation, the App will notify the user and start forward messages. When the App send the message to the user, it will use the persona ID for this mentor. The mentor can end the conversation using a special command. When the mentor end the conversation, this will reset the state in the database and make the mentor available.
+This App uses Messenger personas to connect users with live mentors. We created Messenger persona for mentors with their names and profile pictures. When a user try to connect with a mentor, the App will check the mentor status in the database. If the mentor is available, the App will send the mentor a request to accept the conversation or refuse. If the mentor accept the conversation, the App will notify the user and update the database. Then the app will forward messages between both parties. When the mentor send a message to the user, the App will use the persona ID we created to send the message to the user. The mentor can end the conversation using a special command, or exit the App. When the mentor end the conversation, this will reset the database and make the mentor available.
+
+<div align ="center">
+  <img width="800" src="https://media.giphy.com/media/qPhzsalIn6CkMNXbBW/giphy.gif">
+</div>
+
 
 ### Provide a way to reset the App or delete the data
 
-It is helpful when we provide a way for the user to reset the App settings and data to start over. Some users might enter sensetive data by mistake and need way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App there are feature to do so by using quick reply. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
+It is very helpful to provide a way for users to delete their data and start over. Some users might enter some sensetive data by mistake and need a way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App we provide a way to delete the data and exit or start over. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
+
+<div align ="center">
+    <img width="800" src="https://media.giphy.com/media/VsBeJSUr8UXFwEHRMV/giphy.gif">
+</div>
+
 
 ## How to install and use this App
 
@@ -101,7 +127,7 @@ You need to activate the one time notification for this page. Go to page setting
 
 #### Test on Messenger:
 
-To test the App on Messenger, fllw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. Yu can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
+To test the App on Messenger, follw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. You can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
 
 ``` JAVASCRIPT
 // Main file
@@ -133,23 +159,23 @@ You can test the App live using this link: https://m.me/100364215214464
 
 ### Wit App for NLP
 
-You need to build the conversation model for your App. Think of what the user can say and what onformation you need to capture. Create Wit App and define the intents you may need.
+First, you need a way to understand the user intent easily. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Then, train the app with example utterances. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
 
 ### Database and schema
 
-You may need Database or you can use internal Data structure to save the users Data. Use database to scale and fast processing. Think what details or information you need to save for each user and create your schema.
+You may need Database or you can use internal Data structure to save the users Data. If you expect high trafic, you might consider a cloud based database. This App uses NoSQL DynamoDB to save the users data. See what data you might need to save about users and design your schema and write the required functions.
 
 ### APIs to connect resources
 
-You may use APIs to find search results or get information from resources. Sent the data to the API and format the results then send it to the user.
+You may need to use APIs to find search results or get information from resources. You can capture the entities using Wit.ai, then send the details to a search API or query another database. Use Async/Await to wait for the promise, then format the response and send it to the user. 
 
 ### Messenger platform features
 
-Now, see what feature you will need to use from the Messenger platform and connect things togehter. In the webhook you can control many things like routing the conversation and check for OTN optins events. Webviews and account linking can do more.
+There are many features you can use on the Messenger platform like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the [Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice.
 
 ### Deploy the experience
 
-To scale your app and make it available for as many user as you can imagine, we need to deploy this experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. You will need a domain name and connect you instance to this domain.
+To scale your app and make it available for as many user, we may need to deploy the final experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. Most of the services are similar, and will require just uploads and environment variables.
 
 
 ## License and contribution:
