@@ -124,7 +124,7 @@ module.exports = async (sender_psid, webhook_event) => {
             ]}
             action = null;
             state = await callSendAPI(sender_psid, response, action);
-            // Update the current limit tp use with the next button
+            // Update the current limit to use with the next button
             updateLimit(sender_psid,1)
           }
           // If there is no data found for this company. 
