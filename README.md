@@ -15,7 +15,7 @@ Every organization can offer their services through a smart chat-bot Application
 
 ## What this App does & How I built it
 
-This chatbot App uses Wit.ai to understand the user intent and capture the details. Then, the App store the users data in AWS DynamoDB table, so it is scalable. To find matching results and reviews, the App calls Google custom search API and other APIs. Moreover, this App uses Messenger One Time Notification to send reminders to users. I used OTN because these reminders can be outside of the 24 hours frame. Moreover, users can connect and chat with Mentors in the same conversation. The App use Messenger Personas with messages from mentors to a user. Finally, this App provides a way for users to delete their data or start over.
+This chat-bot App uses Wit.ai to understand the user intent and capture the details. Then, the App store the users data in AWS DynamoDB table, so it is scalable. To find matching results and reviews, the App calls Google custom search API and other APIs. Moreover, this App uses Messenger One Time Notification to send reminders to users. I used OTN because these reminders can be outside of the 24 hours frame. Moreover, users can connect and chat with Mentors in the same conversation. The App use Messenger Personas with messages from mentors to a user. Finally, this App provides a way for users to delete their data or start over.
 
 
 ### Capture details using Wit.ai
