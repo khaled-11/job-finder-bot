@@ -111,11 +111,11 @@ if (jsonData && jsonData[0] && jsonData[0].rating){
 
 ### Messenger One Time Notification for reminders
 
-This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. The function will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. This response will use the OTN token we saved in the database. This OTN allow the page to send one message to users in the future outside the 24 hours window frame
+This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. In the function, the App will loop over all the users. If there is a dates in the reminders field, it will compare it with the date now. If this is the time to send a notification, the App will send a message to the user. This message could be outside the 24 hours window frame, so I used the OTN here. In the example code below, I cleared the OTN for the user after I send the message. This can avoid some errors in the future.
 
 
 ``` JAVASCRIPT
-// Calling OTN Function to check for and send Reminders periodically.
+// Calling OTN function to check for and send reminders.
 setInterval(function(){OTN()}, 800000);
 
 // OTN Function
@@ -128,6 +128,8 @@ for (i = 0 ; i < all_IDs.length ; ++i){
   check = await updateCheck(sender_psid);
   // Check if the user have date in the database
   if (check.Item.reminder_date.S !== ""){
+      // Check the date and compare it with the time now.
+      var checkDate = new Date();
       date = true;
   }
   // If everything looks good and the user agree
