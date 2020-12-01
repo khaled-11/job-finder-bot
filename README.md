@@ -11,16 +11,60 @@
 
 ## Introduction
 
-Every organization can offer their services through a smart chatbot Application. This will increase the productivity and provide a better support for their customers. Users won't need to download a special App to use these services or to access their accounts. For example, a restaurant can offer a delivery service through Messenger App. The user can see the menu, place orders, and track delivery status all in a Messenger conversation. Also, the App can encrypt and store the order history, payment methods, and other details. I built an App that help people find jobs in Messenger. This App help users find job opportunities, and connect users with mentors. Moreover, it can provide practice resources and send interview reminders. Also, this App can find reviews and information about a specific company. The user can add the company to the job search data and get related opportunities. In this tutorial, I will explain how I built this App, how to use it on your Facebook page, and how to build a similar experience.
+Every organization can offer their services through a smart chat-bot Application. This will increase the productivity and provide a better support for their customers. Users won't need to download a special App to use these services or to access their accounts. For example, a restaurant can offer a delivery service through Messenger chat-bot App. The user can see the menu, place orders, and track delivery status all in a Messenger conversation. Also, the App can encrypt and store the order history, payment methods, and other details. I built a Messenger chat-bot App that help people find jobs in the USA. This chat-bot App help users find job opportunities, and connect them with mentors. Moreover, it can provide practice resources for interviews and send reminders. Also, this App can find reviews and information about a specific company. The user can add the company to the job search data and get related opportunities. In this tutorial, I will explain how I built this App, how to use it, and how to build a similar experience.
 
 ## What this App does & How I built it
 
-This Chatbot App uses Wit.ai to understand the user intent and capture the job preference. Then, it stores the users data in AWS DynamoDB table to make it scalable. To find matching results and reviews, it calls Google custom search API and other APIs. Moreover, this App uses Messenger One Time Notification to send reminders to users outside of the 24 hours frame. Also, users can connect and chat with Mentors in the same conversation using Messenger Personas. Finally, this App provides an easy way for users to delete their data or start over.
+This chat-bot App uses Wit.ai to understand the user intent and capture some details. Then, the App store the users data in AWS DynamoDB table, so it is scalable. To find matching results and reviews, the App calls Google custom search API and other APIs. Moreover, this App uses Messenger One Time Notification to send reminders to users. I used OTN because these reminders can be outside of the 24 hours frame. Moreover, users can connect and chat with Mentors in the same conversation. The App uses Messenger Personas when it forward messages from mentors to users. Finally, this App provides a way for users to delete their data or start over.
 
 
 ### Capture details using Wit.ai
 
-We need to capture information like job preference and company name. Also, the dates in the remiders intent to schedule the reminder. This App uses Wit.ai to capture entities in the user inputs and save it in a database. We defined intents and entities then we trained the App with some possible utterances. Some of the utterances like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user when it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way.
+We need to capture information like job preference and company name. Also, the dates in the reminders intent to schedule the reminder. This App uses Wit.ai to capture entities in the user inputs and save it in a database. I defined intents, entities and trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities => ("CVS" is entity for "review" intent). The App sends an error message to the user when it detect an intent without the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. To do so, create an intent and add entities as needed while you train the Wit model. When the user send a message to the App, the Wit model will identify the intent and entities. In the App code, we need to match the intent name and check for entities. The following code example from this App used for the reminders intent. If the App identify the intent, it will check what entities we have in the Wit response. For each combination of entities we have a response. If the App identify the intent but didn't find entities, it will request the entity from the user. If the user confirm, the postback will include the details to save in the App database.
+
+``` JAVASCRIPT
+if (intent === "reminders"){
+    // If we have the job details with the information date
+    if (nlp.entities['job_role:job_role'] && nlp.entities['wit$datetime:datetime']){
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var new_date = `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ,${date.getFullYear()}`;
+      response = { "text":`I got the interview date on ${new_date} for ${nlp.entities['job_role:job_role'][0].body} role, is that correct?`,
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Correct ✅",
+          "payload":`CONFITWO_${new_date}_${nlp.entities['job_role:job_role'][0].body}`
+        }, {
+          "content_type":"text",
+          "title":"No ❌",
+          "payload":"REMINDERS"
+        }
+      ]
+    }    
+    action = null;
+    state = await callSendAPI(sender_psid, response, action);
+    } 
+    // If the reminder include only date without job details.
+    else if (nlp.entities['wit$datetime:datetime'] && nlp.entities['wit$datetime:datetime'][0].value){
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
+    } 
+    // If there is no dates, but the intent is reminders
+    else {
+      response = { "text":`I believe you are trying to set reminders by I didn't get the date.`,
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Main Menu",
+          "payload":`MENU`
+        }
+      ]};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action);
+    }
+}
+```
 
 <div align ="center">
   <img width="800" src="https://media.giphy.com/media/824sB4Whn1BDHuiB6Z/giphy.gif">
@@ -109,7 +153,7 @@ Now, we have completed the required environment variables and the App  is ready 
 
 #### Train the Wit App:
 
-For this demo, you need to train the App with some intents and entities. Go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
+For this demo, you need to train the App with some intents and entities. There is an export from the current Wit App which you can use instead of training new App. Otherwise, go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
 <ol>
   <li>job_preference: The App uses this to capture the job preference  from the user input. You can train the app with utterances like: "I need  a {full time} {Software engineer} job in {California}". Define a  "job_role", "job_role" & "state" for this intent in the same order.  You can add utterances with one or two only, but you need to define all.</li> 
