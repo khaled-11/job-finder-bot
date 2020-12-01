@@ -277,11 +277,11 @@ Go to [Wit.ai](http://wit.ai) website, and create new App. In the app dashboard,
 
 ### Run the App:
 
-Now, we have completed the required environment variables and the App  is ready to run. If you use your local machine, open a new terminal and  navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Elastic Beanstalk, the platform will refresh the server and add the variables. You may need to comment the ``` callbackSetup ```  import and invoke. This if Elastic Beanstalk gives you an error and can't start the server.  In this case, update the Callback URL in the Messenger App dashboard. Finally, add the persona ID from the printed logs and your PSID to the .env file.
+Now, we have completed the required environment variables and the App  is ready to run. If you use your local machine, open a new terminal and  navigate to the App main folder. Run the command ``` node index.js ``` to start the App server. If you use Elastic Beanstalk, the platform will refresh the server and add the variables. You may need to remove the ``` callbackSetup ```  function, if Elastic Beanstalk gives you an error.  In this case, update the Callback URL in the Messenger App dashboard. Finally, add the persona ID from the printed logs with your account PSID in the .env file. You will see two fields: MIKE_ID & MIKE_FB_ID. The first is for the persona, and the second for the PSID. This App uses only one persona and mentor for the demo purposes.
 
 #### Train the Wit App:
 
-For this demo, you need to train the App with some intents and entities. There is an export from the current Wit App which you can use instead of training new App. Otherwise, go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
+For this demo, you need to train the App with some intents and entities. There is an export from the current Wit App which you can use instead of training new App. The file is in the main folder called <b>job-finder-wit.zip</b>. You can upload these data to the Wit App and save the time. Otherwise, go to the App Dashboard in [Wit.ai](https://wit.ai) console, and start the process. We will need the following intent:
 
 <ol>
   <li>job_preference: The App uses this to capture the job preference  from the user input. You can train the app with utterances like: "I need  a {full time} {Software engineer} job in {California}". Define a  "job_role", "job_role" & "state" for this intent in the same order.  You can add utterances with one or two only, but you need to define all.</li> 
@@ -299,22 +299,7 @@ You need to activate the one time notification for this page. Go to page setting
 
 #### Test on Messenger:
 
-To test the App on Messenger, follw the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications. There is a function that will check if any users clicked notify me. If the function found OTN tokens, it will send a sample notification. You can get the token from the database or print it to the console. You can use it to send responses using the [Graph Explorer](https://developers.facebook.com/tools/explorer/) and test other things.
-
-``` JAVASCRIPT
-// Main file
-setInterval(function(){OTN()}, 88000);
-
-// OTN Function
-for (i = 0 ; i < all.length ; ++i){
-  if(check.Item.N_token && check.Item.N_token.S !== ""){            
-    userToken = check.Item.N_token.S;
-    PSID = null;
-    var elements = [];
-  } else {
-  // User not opt-in
-  }
-```
+To test the App on Messenger, follow the link from the setup step. Open a conversation and test the bot for the intents. Go to Insights & Reminders and test the notifications and resources. Test the job matching and connect with Mentors. Also, you can use the [Graph Explorer](https://developers.facebook.com/tools/explorer/) to test requests.
 
 #### Save the API:
 
