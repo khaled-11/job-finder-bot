@@ -316,11 +316,11 @@ You can test the App live using this link: https://m.me/100364215214464
 
 ### Wit App for NLP
 
-First, you need a way to understand the user intent easily. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Then, train the app with example utterances. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
+First, you need a way to understand the user intent. Create a Wit.ai App and start defining the intents you may need. Add entities and traits where applicable. Then, train the app with example utterances. Finally, write in your code the logic that will handle each intent and it's entities and traits if any.
 
 ### Database and schema
 
-You may need Database or you can use internal Data structure to save the users Data. If you expect high trafic, you might consider a cloud based database. This App uses NoSQL DynamoDB to save the users data. See what data you might need to save about users and design your schema and write the required functions.
+You may need Database or you can use internal Data structure to save the users Data. If you expect high traffic, you might consider a cloud based database. This App uses NoSQL AWS DynamoDB to save the users data. See what data you might need to save about users and design your schema and write the required functions.
 
 ### APIs to connect resources
 
@@ -328,11 +328,11 @@ You may need to use APIs to find search results or get information from resource
 
 ### Messenger platform features
 
-There are many features you can use on the Messenger platform like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the [Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice.
+There are many features you can use on the Messenger platform. Some are like [account linking](https://developers.facebook.com/docs/messenger-platform/identity/account-linking), [private replies](https://developers.facebook.com/docs/messenger-platform/discovery/private-replies), and more. For example, if you need to sell, the [Messenger receipt template](https://developers.facebook.com/docs/messenger-platform/send-messages/template/receipt/) will be great choice. You can find more on the [Facebook Developers Docs.](https://developers.facebook.com/docs)
 
 ### Deploy the experience
 
-To scale your app and make it available for as many user, we may need to deploy the final experience to a cloud hosting service. This experinence is hosted by AWS Elastic beanstalk. Most of the services are similar, and will require just uploads and environment variables.
+This will depend on how the traffic will look like. You can use free services or use a cloud hosting service. I deployed this experience to [AWS Beanstalk](https://aws.amazon.com/elasticbeanstalk/) and The database is [AWS DynamoDB](https://aws.amazon.com/dynamodb/). Most of the cloud services are similar when it comes to deploying. You will need to upload the source code, and sometimes add the environment variables.
 
 
 ## License and contribution:
