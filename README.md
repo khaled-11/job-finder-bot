@@ -204,7 +204,31 @@ if (payload.includes("MCON")){
 
 ### Provide a way to reset the App or delete the data
 
-It is very helpful to provide a way for users to delete their data and start over. Some users might enter some sensetive data by mistake and need a way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App we provide a way to delete the data and exit or start over. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again, or exit without requesting the data again. 
+It is very helpful to provide a way for users to delete their data and  start over. Some users might enter some sensitive data by mistake and need a way to delete these data. Also, users might want to delete their personal data and stop using the App. In this App we provide a way to delete the data and exit or start over. First, we defined and trained an intent for data deletion and start over. When the App identify this intent, it confirm with the user. If the user confirm, the App will  delete the data from the database and provide options. The user can choose to start over which will request the data from Facebook again. Otherwise, the user can exit without requesting the data again. The code below deletes the user data after the user confirm.
+
+
+``` JAVASCRIPT
+if (payload === "delete_data_yes"){
+    // Delete all user data from the database
+    deleteData(sender_psid);
+    // Delete the local data folder and all the content.
+    fs.rmdirSync(`./data/${sender_psid}`, { recursive: true });
+    response = { "text":`Ok, we deleted all of your data and information!\nYou can now start over or exit the conversation.`,
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Start Over",
+        "payload":"GET_STARTED"
+      }, {
+        "content_type":"text",
+        "title":"Exit ❌",
+        "payload":"EXIT"
+      }
+    ]};
+    action = null;
+    state = await callSendAPI(sender_psid, response, action);
+}
+```
 
 <div align ="center">
     <img width="800" src="https://media.giphy.com/media/VsBeJSUr8UXFwEHRMV/giphy.gif">
