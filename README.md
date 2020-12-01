@@ -73,8 +73,37 @@ if (intent === "reminders"){
 
 ### APIs for reviews and search results
 
-After we capture the information, we need to get the required data. This App uses Wextractor API to get Indeed reviews and Crunchbase for the company details. Also, it uses Google cutom search API to cutom search indeed, glassdoor and other websites for job posting. We use the data for this user from the database to cutom search these websites to find matching opportunities. The API send JSON response, then the App format the results and send the response to the user.
+After we capture the information, we need to get the required data. This App uses Wextractor API to get Indeed reviews and Crunchbase for the company details. Also, it uses Google custom search API to search indeed, glassdoor and other websites for job postings. For the reviews, the API returns a .json response with multiple entries in an array. To display the reviews one by one to the user, I used an integer in the user data. When the user ask for reviews, the App will display the first element in the data array. The user can click next which which will send a post-back and increment the integer. In the code below, the App will read the first entry in the array and format the response. Then it will increment the integer incase the user click next review.
 
+``` JAVASCRIPT
+if (jsonData && jsonData[0] && jsonData[0].rating){
+    let rate = "";
+    for (n = 0 ; n < jsonData[0].rating ; n++){
+      rate += "⭐";
+    }
+    response = { "text":`*Data:* ${jsonData[0].datetime} *Rating:* ${rate} \n*Current/Formal Employee:* ${jsonData[0].reviewer_employee_type}\n*Reviewer Role:* ${jsonData[0].reviewer}\n*Location:* ${jsonData[0].location}\n*Review Text:* ${jsonData[0].text}\n*Link:* ${jsonData[0].url}`,
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Main Menu",
+          "payload":"MENU"
+        }, {
+          "content_type":"text",
+          "title":"Add Company",
+          "payload":`ADD_${name}`
+        }, {
+          "content_type":"text",
+          "title":"Next Review ⏭️",
+          "payload":`NEXT_${name}`
+        }
+    ]}
+    action = null;
+    state = await callSendAPI(sender_psid, response, action);
+    // Update the current limit tp use with the next button
+    updateLimit(sender_psid,1)
+}  
+
+```
 <div align ="center">
   <img width="800" src="https://media.giphy.com/media/iUR2ga5rhwJWPM618J/giphy.gif">
 </div>
