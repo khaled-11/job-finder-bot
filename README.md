@@ -165,14 +165,35 @@ for (i = 0 ; i < all_IDs.length ; ++i){
 
 ### Connect users with Mentors in the same conversation
 
-This App uses Messenger personas when it connect users with live mentors. Every mentor can have a persona with the name and profile picture. When a user try to connect with a mentor, the App will check the mentor status in the database. If the mentor is available, the App  will send the mentor a request to accept the conversation or refuse. If  the mentor accept the conversation, the App will notify the user and update the database. Then the app will forward messages between both  parties. When the mentor send a message to the user, the App will use the mentor persona ID with this message to the user. The mentor  can end the conversation using a command. When the mentor end the conversation, the App will update the database. It will clear the connected_with field and update the mentor status to available. When the App clear the connected_with field, it will stop forward text message from this user. The code below is in the handle messages function. It will check if users are connected with mentors when they send a message. If they are connected with mentors, the App will send this message to the mentor. This is done before we go over the NLP and check for intents. If the user is not connected with any mentor, the App will continue the next step and do the NLP.
+This App uses Messenger personas when it connect users with live mentors. Every mentor can have a persona with the name and profile picture. When a user try to connect with a mentor, the App will check the mentor status in the database. If the mentor is available, the App  will send the mentor a request to accept the conversation or refuse. If  the mentor accept the conversation, the App will notify the user and update the database. Then the app will forward messages between both  parties. When the mentor send a message to the user, the App will use the mentor persona ID with this message to the user. The mentor  can end the conversation using a command. When the mentor end the conversation, the App will update the database. It will clear the connected_with field and update the mentor status to available. When the App clear the connected_with field, it will stop forward text message from this user. The code below is in the handle messages function. It will check if users connected with mentors when they send a message. If they are connected with mentors, the App will send this message to the mentor. This is before the App go to check for intents. If the user is not connected with any mentor, the App will continue the next step and do the NLP. The second part of the code is when the mentor accept the user request. It will update the connected with data field for the mentor and the user. Then it will send a confirmation to both parties.
 
 ``` JAVASCRIPT
+// In the handle messages function to check before the App proceed
 if (data.Item.connected_with.S !== ""){
     await senderEffect(sender_psid, app, "mark_seen");
     response = { "text":webhook_event.message.text};
     action = null;
     state = await callSendAPI(data.Item.connected_with.S, response, action);
+}
+
+// When the mentor accept the request
+if (payload.includes("MCON")){
+    mentorName = payload.split("_")[1]
+    userID = payload.split("_")[2]
+    data = await updateCheck(process.env.MIKE_FB_ID);
+    userData = await updateCheck(sender_psid);
+    updateUserData (sender_psid, "connected_with" , userID)
+    updateUserData (userID, "connected_with" ,sender_psid)
+    response = {
+      "text":`Now you are connected with ${userData.Item.first_name.S}.`
+    };
+    action = null;
+    state = await callSendAPI(process.env.MIKE_FB_ID, response, action);     
+    response = {
+      "text":"Mike approved the request and now you are both connected."
+    };
+    action = null;
+    state = await callSendAPI(userID, response, action);
 }
 ```
 
