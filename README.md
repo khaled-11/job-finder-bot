@@ -113,6 +113,49 @@ if (jsonData && jsonData[0] && jsonData[0].rating){
 
 This App uses Messenger One Time Notification to send reminders to users. After the App capture the date and save it in the database, it check the data and dates every interval. The function will first check if the user asked for notification or not. If the user asked for one, it will check the reminders dates. If the date is one day before the current day, it will send Notification with some helpful resources. This response will use the OTN token we saved in the database. This OTN allow the page to send one message to users in the future outside the 24 hours window frame
 
+
+``` JAVASCRIPT
+// Calling OTN Function to check for and send Reminders periodically.
+setInterval(function(){OTN()}, 800000);
+
+// OTN Function
+all_IDs = await getAll();
+// Loop through all the App IDs
+for (i = 0 ; i < all_IDs.length ; ++i){
+  var date = false;
+  sender_psid = all_IDs[i].PSID.S;
+  // Get the user data from the database
+  check = await updateCheck(sender_psid);
+  // Check if the user have date in the database
+  if (check.Item.reminder_date.S !== ""){
+      date = true;
+  }
+  // If everything looks good and the user agree
+  if(check.Item.N_token.S !== "" && date == true){  
+      // Send the message to the user
+      response = {"text":"This is a test For the OTN notification message.\nThe function is scheduled every day to check if the user have remainders and send notification one day before.",
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Practice Resources",
+          "payload":`PRACTICE`
+        }, {
+          "content_type":"text",
+          "title":"Connect with Mentor",
+          "payload":`MENTOR`
+        }
+      ]};
+      // Use the OTN token instead of user psid
+      userToken = check.Item.N_token.S;
+      action = null;
+      PSID = null;
+      await callSendAPI(PSID, response, action, userToken);
+      // Clear the token after send the message
+      update = await updateUserData(sender_psid, "N_token", "");
+   }
+}
+
+```
 <div align ="center">
   <img width="800" src="https://media.giphy.com/media/3YmcLsZbhij5NQVTjN/giphy.gif">
 </div>
