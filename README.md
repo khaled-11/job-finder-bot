@@ -20,7 +20,52 @@ This chat-bot App uses Wit.ai to understand the user intent and capture some det
 
 ### Capture details using Wit.ai
 
-We need to capture information like job preference and company name. Also, the dates in the remiders intent to schedule the reminder. This App uses Wit.ai to capture entities in the user inputs and save it in a database. We defined intents and entities then we trained the App with some possible utterances. Some of the utterances like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities ("CVS" is entity for "review" intent). The App sends an error message to the user when it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way.
+We need to capture information like job preference and company name. Also, the dates in the reminders intent to schedule the reminder. This App uses Wit.ai to capture entities in the user inputs and save it in a database. I defined intents, entities and trained the App with some possible utterances. Some of the utterances are like: (I need to set reminder for interview on {December 1, 2020} | I need review for {CVS}). Most of the intents requires entities => ("CVS" is entity for "review" intent). The App sends an error message to the user when it detect an intent with out the required entity like: (I need reviews). Some intents can work with 1,2 or 3 entities. Examples can be like: (I need software engineer job | I need software engineer job in Florida). It will work with only the job role or with combinations by handling each case in a different way. To do so, create an intent and add entities as needed while you train the Wit model. When the user send a message to the App, the Wit model will identify the intent and entities. In the App code, we need to match the intent name and check for entities. The following code example from this App used to identify the reminders intent. If the App identify the intent, it will check what entities we have in the Wit response. For each combination of entities we have a response. If the App identify the intent but didn't find entities, it will request the entity from the user. If the user confirm, the postback will include the details to save in the App database.
+
+` JAVASCRIPT
+if (intent === "reminders"){
+    // If we have the job details with the information date
+    if (nlp.entities['job_role:job_role'] && nlp.entities['wit$datetime:datetime']){
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var new_date = `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()} ,${date.getFullYear()}`;
+      response = { "text":`I got the interview date on ${new_date} for ${nlp.entities['job_role:job_role'][0].body} role, is that correct?`,
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Correct ✅",
+          "payload":`CONFITWO_${new_date}_${nlp.entities['job_role:job_role'][0].body}`
+        }, {
+          "content_type":"text",
+          "title":"No ❌",
+          "payload":"REMINDERS"
+        }
+      ]
+    }    
+    action = null;
+    state = await callSendAPI(sender_psid, response, action);
+    } 
+    // If the reminder include only date without job details.
+    else if (nlp.entities['wit$datetime:datetime'] && nlp.entities['wit$datetime:datetime'][0].value){
+      var date = new Date(`${nlp.entities['wit$datetime:datetime'][0].value}`);
+    } 
+    // If there is no dates, but the intent is reminders
+    else {
+      response = { "text":`I believe you are trying to set reminders by I didn't get the date.`,
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":"Main Menu",
+          "payload":`MENU`
+        }
+      ]};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action);
+    }
+}
+
+`
 
 <div align ="center">
   <img width="800" src="https://media.giphy.com/media/824sB4Whn1BDHuiB6Z/giphy.gif">
