@@ -133,7 +133,11 @@ module.exports = async (sender_psid, event) => {
     ]}    
     action = null;
     state = await callSendAPI(sender_psid, response, action);
-    updateLimit(sender_psid,++current)
+    if (current > 10){
+      updateLimit(sender_psid,1)
+    } else {
+      updateLimit(sender_psid,++current)
+    }
   }
 
   // If the user click add company to the list
