@@ -457,6 +457,7 @@ module.exports = async (sender_psid, event) => {
     });
     req.end(async function (res) {
       if (res.error) throw new Error(res.error)
+      if (res.body.data && res.body.data.Item && res.body.data.Item[0]){
       // Send the company data to the user
       response = {
         "attachment":{
@@ -484,6 +485,13 @@ module.exports = async (sender_psid, event) => {
       };
       action = null;
       await callSendAPI(sender_psid, response, action)
+      } 
+      // If no results
+      else {
+        response = {"text": "Sorry, we didn't find any matches."}
+        action = null;
+        await callSendAPI(sender_psid, response, action);
+      }
     });
   }
 
