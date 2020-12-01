@@ -73,7 +73,7 @@ if (intent === "reminders"){
 
 ### APIs for reviews and search results
 
-After we capture the information, we need to get the required data. This App uses Wextractor API to get Indeed reviews and Crunchbase for the company details. Also, it uses Google custom search API to search indeed, glassdoor and other websites for job postings. For the reviews, the API returns a .json response with multiple entries in an array. To display the reviews one by one to the user, I used an integer in the user data. When the user ask for reviews, the App will display the first element in the data array. The user can click next which which will send a post-back and increment the integer. In the code below, the App will read the first entry in the array and format the response. Then it will increment the integer incase the user click next review.
+After we capture the information, we need to get the required data. This App uses Wextractor API to find reviews on indeed. Also it uses Crunchbase to find information about companies. Moreover, it uses Google custom search API to search for job postings. For the reviews, the API returns a .json response with many entries in an array. To display the reviews one by one to the user, I used an integer in the user data. When the user ask for reviews, the App will display the first element in the data array. The user can click next which which will send a post-back and increment the integer. In the code below, the App will read the first entry in the array and format the response. Then it will increment the integer incase the user click next review.
 
 ``` JAVASCRIPT
 if (jsonData && jsonData[0] && jsonData[0].rating){
